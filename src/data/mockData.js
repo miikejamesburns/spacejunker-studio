@@ -1,5 +1,5 @@
 // ============================================================
-// AUTONOMOUS STUDIO — Mock Data
+// SPACEJUNKER — Mock Data
 // All values simulate a live system with realistic numbers
 // ============================================================
 

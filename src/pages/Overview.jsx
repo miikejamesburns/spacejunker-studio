@@ -84,7 +84,7 @@ export default function Overview() {
           </div>
 
           <div className="overview-hero-copy">
-            <span className="overview-kicker">Autonomous Studio</span>
+            <span className="overview-kicker">SpaceJunker</span>
             <h2 className="overview-hero-title">
               Direct a living story engine across cluster compute, lore memory, agent orchestration, and adapter training.
             </h2>
@@ -258,8 +258,8 @@ export default function Overview() {
         <div className="card overview-command-card overview-command-card-wide">
           <span className="section-label">Studio Brief</span>
           <p className="overview-summary-text">
-            A local virtual studio for long-form AI storytelling: cluster scheduling, lore retrieval, canon validation,
-            LoRA lifecycle management, training jobs, and generation queues in one operational surface.
+            A self-evolving AI TV production studio for long-form storytelling: cluster scheduling, lore retrieval,
+            canon validation, LoRA lifecycle management, training jobs, and generation queues in one operational surface.
           </p>
           <div className="overview-command-pills">
             <span className="tag tag-amber">4 Node Cluster</span>
