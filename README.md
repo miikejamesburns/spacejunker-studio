@@ -1,16 +1,8 @@
 # AUTONOMOUS STUDIO
-### Field Guide — Tutorial & Reference
 
-> A virtual production control room for managing a multi-agent AI TV/film generation system.
-> Dark, cinematic dashboard built with React + Vite. No auth required. Runs locally on your GPU cluster.
+A local operations dashboard for managing a multi-agent AI TV/film generation system across a GPU cluster. Covers the full production stack: cluster nodes, memory infrastructure, agent orchestration, LoRA adapter libraries, world lore management, and generation pipelines.
 
----
-
-## What Is This
-
-Autonomous Studio is a local operations dashboard for solo technical operators running a multi-agent AI content pipeline. It covers the full production stack — cluster nodes, memory infrastructure, agent orchestration, LoRA adapter libraries, world lore, and generation pipelines — through a single dark-themed control room UI.
-
-Built for a 4-node home GPU cluster producing Star Wars / Stranger Things scale multi-series AI content.
+Built with React + Vite. Runs locally — no auth, no cloud dependency.
 
 ---
 
@@ -38,16 +30,14 @@ Open `http://localhost:5173`
 
 ---
 
-## Chapter 1 — Mission Control
+## Overview
 
-The **Overview** page is your mission control. A persistent top bar shows live cluster state at all times:
+A persistent top bar shows live cluster state at all times:
 
 ```
 ● CLUSTER: 4/4 NODES ONLINE  ◈ QDRANT: 12,847 VECTORS  ⬟ NEO4J: 1,203 NODES
 ⊞ ACTIVE SERIES: 3  ⊡ ADAPTERS LOADED: 7  ⊛ TRAINING: IDLE  ⊕ QUEUE: 2 JOBS
 ```
-
-From Overview you can start generation runs, trigger LoRA retraining, refresh the vector index, or rebuild the knowledge graph — one click each.
 
 **The 5-Stage Workflow**
 
@@ -59,9 +49,9 @@ From Overview you can start generation runs, trigger LoRA retraining, refresh th
 
 ---
 
-## Chapter 2 — The Dark Matter Universe
+## Example Universe — Dark Matter
 
-The example universe used throughout the dashboard and tutorial.
+The reference universe used throughout the tutorial and in-app examples.
 
 ### Character Dossiers — Main Cast
 
@@ -125,7 +115,7 @@ Information broker of indeterminate age and allegiance. Sole custodian of pre-Co
 
 ---
 
-## Chapter 3 — Full Production Pipeline
+## Production Pipeline
 
 Every episode passes through a six-stage pipeline. Each stage is handled by a dedicated agent backed by its own LoRA adapter stack.
 
@@ -151,7 +141,7 @@ Every episode passes through a six-stage pipeline. Each stage is handled by a de
 
 ---
 
-## Chapter 4 — Your 4-Node GPU Cluster
+## Cluster
 
 | Node | GPU | VRAM | RAM | Primary Role |
 |---|---|---|---|---|
@@ -177,7 +167,7 @@ Every episode passes through a six-stage pipeline. Each stage is handled by a de
 
 ---
 
-## Chapter 5 — The Memory Layer
+## Memory Layer
 
 Two complementary systems handle world knowledge:
 
@@ -224,7 +214,7 @@ The graph fires **canon constraints** during generation — if an agent referenc
 
 ---
 
-## Chapter 6 — Adapter Vault
+## Adapter Vault
 
 LoRA adapters are organised in a three-tier hierarchy:
 
@@ -266,7 +256,7 @@ TOTAL:              9.06 GB  ✓ Fits RTX 5090 (32 GB)
 
 ---
 
-## Chapter 7 — The 6-Agent Pipeline
+## Agent Pipeline
 
 | Agent | Role | Model | LoRAs |
 |---|---|---|---|
@@ -307,7 +297,7 @@ he was coming.
 
 ---
 
-## Chapter 8 — Running a Generation Job
+## Running a Generation Job
 
 **6-Stage Generation Walkthrough**
 
@@ -335,17 +325,6 @@ he was coming.
 
 ---
 
-## Where to Start
-
-| Task | Go to |
-|---|---|
-| Monitor your cluster | [Cluster](/cluster) |
-| Add a new series | [Series Registry](/series) → New Series |
-| Train a LoRA | [Training](/training) → New Training Job |
-| Run an episode | [Generation](/generation) → New Generation Job |
-
----
-
 ## Docs
 
 - [`docs/developer-guide.md`](docs/developer-guide.md) — architecture, component API, extension guide
@@ -361,7 +340,3 @@ he was coming.
 - **recharts** — loss curves and charts
 - **Custom CSS variables** — full design system, no Tailwind
 - **Google Fonts** — Bebas Neue · Space Mono · DM Sans
-
----
-
-*Local deployment only. No auth required. Minimum viewport: 1280px.*
