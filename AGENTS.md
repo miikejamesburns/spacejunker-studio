@@ -1,4 +1,4 @@
-# AUTONOMOUS STUDIO — Project Dashboard Spec
+# SPACEJUNKER-STUDIO — Project Dashboard Spec
 ### Codex Implementation Brief
 
 > **Purpose**: Organisational UI dashboard for setting up, managing, and monitoring a multi-agent autonomous TV/film generation system. Covers the full pipeline: cluster nodes, memory infrastructure, agent orchestration, LoRA adapter libraries, world lore management, and generation pipelines.
@@ -42,7 +42,7 @@ Think IMAX post suite crossed with a 1970s NASA ops floor — dense data, dramat
 Fixed left sidebar, 64px wide collapsed / 220px expanded, with hover-to-expand behaviour.
 
 ```
-AUTONOMOUS STUDIO
+SPACEJUNKER-STUDIO
 ─────────────────
 ⬡  OVERVIEW          (home / mission control)
 ◈  CLUSTER           (node management)
@@ -957,4 +957,4 @@ Each phase should result in a fully navigable, data-rich UI before moving to the
 
 ---
 
-*This spec is the source of truth for the Autonomous Studio dashboard. All design decisions should prioritise operational clarity, cinematic atmosphere, and the feeling of a real system under real control.*
+*This spec is the source of truth for the SpaceJunker-Studio dashboard. All design decisions should prioritise operational clarity, cinematic atmosphere, and the feeling of a real system under real control.*

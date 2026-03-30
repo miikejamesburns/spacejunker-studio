@@ -1,6 +1,6 @@
-# SPACEJUNKER
+# SPACEJUNKER-STUDIO
 
-SpaceJunker is a self-evolving AI TV production studio for a single operator with a GPU cluster — writing, directing, world-building, and generating full episodic story worlds from one cinematic control room.
+SpaceJunker-Studio is a self-evolving AI TV production studio for a single operator with a GPU cluster — writing, directing, world-building, and generating full episodic story worlds from one cinematic control room.
 
 It coordinates a six-agent LangGraph pipeline backed by a hybrid Qdrant + Neo4j memory system, a tiered LoRA adapter library, and integrated training and visual generation — all running locally on commodity hardware. No subscriptions. No rate limits. No creative ceiling.
 

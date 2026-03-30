@@ -611,7 +611,7 @@ function ExportSection() {
         </div>
         <div className="settings-field">
           <label className="settings-label">BACKUP DESTINATION</label>
-          <input className="settings-input" defaultValue="/mnt/backups/spacejunker" />
+          <input className="settings-input" defaultValue="/mnt/backups/spacejunker-studio" />
         </div>
       </div>
       <div className="settings-action-row" style={{ marginTop: 12 }}>

@@ -1,4 +1,4 @@
-# SpaceJunker — Developer Guide
+# SpaceJunker-Studio — Developer Guide
 
 > Local React/Vite dashboard for managing a multi-agent AI TV/film generation system on a 4-node GPU cluster.
 > Served from Ubuntu Hub (RTX A4000). No auth. Desktop-only (min 1280px).

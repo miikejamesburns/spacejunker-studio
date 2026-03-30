@@ -1,5 +1,5 @@
 // ============================================================
-// SPACEJUNKER — Mock Data
+// SPACEJUNKER-STUDIO — Mock Data
 // All values simulate a live system with realistic numbers
 // ============================================================
 
