@@ -1,4 +1,4 @@
-import { useContext, useEffect, useRef, useState } from 'react'
+import { useContext } from 'react'
 import {
   Play,
   Plus,
@@ -10,10 +10,12 @@ import {
   Cpu,
   Database,
   Layers,
+  Radar,
+  ShieldCheck,
+  Sparkles,
 } from 'lucide-react'
 import { SystemContext } from '../context/SystemContext'
 import StatusDot from '../components/ui/StatusDot'
-import MetricCard from '../components/ui/MetricCard'
 import ProgressBar from '../components/ui/ProgressBar'
 import LogFeed from '../components/ui/LogFeed'
 import './Overview.css'
@@ -36,6 +38,16 @@ export default function Overview() {
   const totalRam   = nodes.reduce((s, n) => s + n.ramTotal,  0)
   const usedRam    = nodes.reduce((s, n) => s + n.ramUsed,   0)
   const loreCoverage = 76
+  const onlineNodes = nodes.filter(node => node.status !== 'offline').length
+  const busyNodes = nodes.filter(node => node.status === 'busy').length
+  const queuedJobs = generation.queue.length
+  const liveSeries = series.filter(item => item.status === 'active')
+  const activeStage = generation.active?.stages.find(stage => stage.status === 'active')
+  const previewLines = generation.active?.preview
+    ?.split('\n')
+    .map(line => line.trimEnd())
+    .filter(Boolean)
+    .slice(0, 7) ?? []
 
   const activeAdapters = adapters.filter(
     a => a.status === 'active' || a.status === 'merged' || a.status === 'loaded'
@@ -49,6 +61,250 @@ export default function Overview() {
         <h1 className="section-title" style={{ fontSize: 22 }}>Mission Control</h1>
         <div className="overview-title-meta">
           <StatusDot status="active" label="ALL SYSTEMS NOMINAL" />
+        </div>
+      </div>
+
+      <div className="overview-hero-grid">
+        <section className="card overview-hero">
+          <div className="overview-hero-band">
+            <span className="overview-band-item">
+              <span className="overview-band-label">Live Series</span>
+              <span className="overview-band-value font-mono">{liveSeries[0]?.title ?? 'No Active Series'}</span>
+            </span>
+            <span className="overview-band-divider" />
+            <span className="overview-band-item">
+              <span className="overview-band-label">Primary Node</span>
+              <span className="overview-band-value font-mono">RTX 5090 / vLLM</span>
+            </span>
+            <span className="overview-band-divider" />
+            <span className="overview-band-item">
+              <span className="overview-band-label">Narrative Mode</span>
+              <span className="overview-band-value font-mono">Lore-Grounded Generation</span>
+            </span>
+          </div>
+
+          <div className="overview-hero-copy">
+            <span className="overview-kicker">SpaceJunker</span>
+            <h2 className="overview-hero-title">
+              Direct a living story engine across cluster compute, lore memory, agent orchestration, and adapter training.
+            </h2>
+            <p className="overview-hero-summary">
+              This control room coordinates a six-agent narrative pipeline backed by Qdrant retrieval,
+              Neo4j canon enforcement, and a tiered LoRA stack for universe, series, and character voice.
+              Everything here is local, stateful, and designed to feel like a running production floor.
+            </p>
+          </div>
+
+          <div className="overview-hero-lower">
+            <div className="overview-hero-stats">
+              <div className="overview-hero-stat">
+                <span className="overview-hero-stat-label">Cluster Load</span>
+                <span className="overview-hero-stat-value font-mono">
+                  {usedVram.toFixed(1)} / {totalVram} GB
+                </span>
+                <span className="overview-hero-stat-meta">
+                  {onlineNodes}/{nodes.length} nodes online · {busyNodes} under load
+                </span>
+              </div>
+
+              <div className="overview-hero-stat">
+                <span className="overview-hero-stat-label">Lore State</span>
+                <span className="overview-hero-stat-value font-mono">
+                  {qdrantStats.totalVectors.toLocaleString()} / {neo4jStats.nodes.toLocaleString()}
+                </span>
+                <span className="overview-hero-stat-meta">
+                  vectors indexed · graph nodes constrained
+                </span>
+              </div>
+
+              <div className="overview-hero-stat">
+                <span className="overview-hero-stat-label">Studio Throughput</span>
+                <span className="overview-hero-stat-value font-mono">
+                  {activeAdapters} active · {queuedJobs} queued
+                </span>
+                <span className="overview-hero-stat-meta">
+                  adapters live in memory · generation jobs awaiting execution
+                </span>
+              </div>
+
+              <div className="overview-hero-stat">
+                <span className="overview-hero-stat-label">Training State</span>
+                <span className="overview-hero-stat-value font-mono">
+                  {training.active ? `E${training.active.currentEpoch}/${training.active.epochs}` : 'Idle'}
+                </span>
+                <span className="overview-hero-stat-meta">
+                  {training.active ? `${training.active.name} · loss ${training.active.currentTrainLoss}` : 'No active adapter retrain'}
+                </span>
+              </div>
+            </div>
+
+            <div className="overview-preview-panel">
+              <div className="overview-preview-header">
+                <span className="section-label">Scene Excerpt</span>
+                <span className="tag tag-cyan" style={{ fontSize: 9 }}>LIVE SCRIPT</span>
+              </div>
+              <div className="overview-preview-screen">
+                {previewLines.map((line, index) => (
+                  <div key={`${line}-${index}`} className="overview-preview-line">
+                    {line}
+                  </div>
+                ))}
+                {!previewLines.length && (
+                  <div className="overview-preview-empty">
+                    No scene preview available. Start a generation run to stream script output here.
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+
+          <div className="overview-stage-rail">
+            <div className="overview-stage-rail-header">
+              <span className="section-label">Production Flow</span>
+              <span className="overview-stage-rail-meta font-mono">
+                {activeStage?.label ?? 'Standby'} active
+              </span>
+            </div>
+
+            <div className="overview-stage-rail-track">
+              {generation.active?.stages.map((stage, i) => (
+                <div key={stage.id} className={`overview-stage-pill ${stage.status}`}>
+                  <span className="overview-stage-pill-dot" />
+                  <span className="overview-stage-pill-label">{stage.label}</span>
+                  {i < generation.active.stages.length - 1 && <ChevronRight size={12} className="overview-stage-pill-arrow" />}
+                </div>
+              ))}
+            </div>
+          </div>
+        </section>
+
+        <section className="card overview-hero-side">
+          <div className="overview-hero-side-header">
+            <span className="section-label">Current Story Run</span>
+            <StatusDot status={generation.active ? 'retrieving' : 'idle'} size="sm" />
+          </div>
+
+          {generation.active ? (
+            <>
+              <div className="overview-hero-side-series">
+                <span className="overview-hero-side-title font-mono">
+                  {generation.active.series}
+                </span>
+                <span className="overview-hero-side-episode font-mono">
+                  S{generation.active.season}E{generation.active.episode} · Scene {generation.active.currentScene}/{generation.active.totalScenes}
+                </span>
+              </div>
+
+              <div className="overview-hero-side-stage">
+                <span className="section-label">Active Stage</span>
+                <span className="overview-hero-side-stage-value font-mono">
+                  {generation.active.currentStage}
+                </span>
+              </div>
+
+              <ProgressBar
+                value={generation.active.tokensGenerated}
+                max={generation.active.tokensEstimated}
+                accent="amber"
+                size="xs"
+              />
+
+              <div className="overview-hero-side-grid">
+                <div className="overview-hero-chip">
+                  <Radar size={14} />
+                  <div>
+                    <span className="overview-hero-chip-label">RAG Queries</span>
+                    <span className="overview-hero-chip-value font-mono">{generation.active.ragQueries}</span>
+                  </div>
+                </div>
+                <div className="overview-hero-chip">
+                  <ShieldCheck size={14} />
+                  <div>
+                    <span className="overview-hero-chip-label">Graph Checks</span>
+                    <span className="overview-hero-chip-value font-mono">{generation.active.neo4jChecks}</span>
+                  </div>
+                </div>
+                <div className="overview-hero-chip">
+                  <Sparkles size={14} />
+                  <div>
+                    <span className="overview-hero-chip-label">Token Progress</span>
+                    <span className="overview-hero-chip-value font-mono">
+                      {generation.active.tokensGenerated.toLocaleString()}
+                    </span>
+                  </div>
+                </div>
+              </div>
+
+              <div className="overview-hero-directive">
+                <span className="overview-hero-directive-label">Command Note</span>
+                <p className="overview-hero-directive-text">
+                  Scene generation is currently grounded against Qdrant retrieval and Neo4j constraint checks before editor review.
+                </p>
+              </div>
+
+              <div className="overview-hero-note">
+                Live generation is grounding against lore memory before the editor and visual stages pick up the handoff.
+              </div>
+            </>
+          ) : (
+            <div className="overview-hero-empty">
+              No active generation run. Queue a new episode or outline to start the pipeline.
+            </div>
+          )}
+        </section>
+      </div>
+
+      <div className="overview-command-grid">
+        <div className="card overview-command-card overview-command-card-wide">
+          <span className="section-label">Studio Brief</span>
+          <p className="overview-summary-text">
+            A self-evolving AI TV production studio for long-form storytelling: cluster scheduling, lore retrieval,
+            canon validation, LoRA lifecycle management, training jobs, and generation queues in one operational surface.
+          </p>
+          <div className="overview-command-pills">
+            <span className="tag tag-amber">4 Node Cluster</span>
+            <span className="tag tag-cyan">Hybrid Lore Memory</span>
+            <span className="tag tag-green">6-Agent Pipeline</span>
+            <span className="tag tag-muted">Local-First</span>
+          </div>
+        </div>
+        <div className="card overview-command-card">
+          <span className="section-label">Operational Priorities</span>
+          <div className="overview-priority-list">
+            <div className="overview-priority-item">
+              <span className="overview-priority-number font-mono">01</span>
+              <span className="overview-priority-text">Balance compute across nodes while primary training is active.</span>
+            </div>
+            <div className="overview-priority-item">
+              <span className="overview-priority-number font-mono">02</span>
+              <span className="overview-priority-text">Maintain lore coverage so generation stays canon-safe.</span>
+            </div>
+            <div className="overview-priority-item">
+              <span className="overview-priority-number font-mono">03</span>
+              <span className="overview-priority-text">Watch adapter stack and queue pressure before output stalls.</span>
+            </div>
+          </div>
+        </div>
+        <div className="card overview-command-card">
+          <span className="section-label">Universe Snapshot</span>
+          <div className="overview-snapshot-grid">
+            <div className="overview-snapshot-cell">
+              <span className="overview-snapshot-label">Series</span>
+              <span className="overview-snapshot-value font-mono">{liveSeries.length}</span>
+            </div>
+            <div className="overview-snapshot-cell">
+              <span className="overview-snapshot-label">Training Queue</span>
+              <span className="overview-snapshot-value font-mono">{training.queue.length}</span>
+            </div>
+            <div className="overview-snapshot-cell">
+              <span className="overview-snapshot-label">Recent Events</span>
+              <span className="overview-snapshot-value font-mono">{activityLog.length}</span>
+            </div>
+            <div className="overview-snapshot-cell">
+              <span className="overview-snapshot-label">Adapters Loaded</span>
+              <span className="overview-snapshot-value font-mono">{systemStatus.adaptersLoaded}</span>
+            </div>
+          </div>
         </div>
       </div>
 

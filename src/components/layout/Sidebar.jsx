@@ -43,7 +43,7 @@ export default function Sidebar() {
       {/* Wordmark */}
       <div className="sidebar-brand">
         <span className="sidebar-brand-icon">⬡</span>
-        <span className="sidebar-brand-text">Autonomous Studio</span>
+        <span className="sidebar-brand-text">SpaceJunker</span>
       </div>
 
       <div className="sidebar-divider" />

@@ -1,12 +1,12 @@
-# AUTONOMOUS STUDIO
+# SPACEJUNKER
 
-For the first time in history, a single person with a GPU cluster can operate a complete AI-driven content studio — writing, directing, world-building, and generating full episodic TV at scale. Autonomous Studio is the control layer that makes that possible.
+SpaceJunker is a self-evolving AI TV production studio for a single operator with a GPU cluster — writing, directing, world-building, and generating full episodic story worlds from one cinematic control room.
 
 It coordinates a six-agent LangGraph pipeline backed by a hybrid Qdrant + Neo4j memory system, a tiered LoRA adapter library, and integrated training and visual generation — all running locally on commodity hardware. No subscriptions. No rate limits. No creative ceiling.
 
 The system maintains a living knowledge graph of your fictional universe — every character, faction, location, relationship, and canon event — and enforces narrative consistency automatically across every scene it generates. Characters stay alive until they die. Factions remember their alliances. The world accumulates history.
 
-This is what it looks like when AI stops being a tool you prompt and starts being a production team you direct.
+This is what it looks like when AI stops being a tool you prompt and starts being a production crew you direct.
 
 Built with React + Vite. Runs locally — no auth, no cloud dependency.
 
