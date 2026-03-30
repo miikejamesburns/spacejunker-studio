@@ -84,7 +84,7 @@ export default function Overview() {
           </div>
 
           <div className="overview-hero-copy">
-            <span className="overview-kicker">SpaceJunker</span>
+            <span className="overview-kicker">SpaceJunker-Studio</span>
             <h2 className="overview-hero-title">
               Direct a living story engine across cluster compute, lore memory, agent orchestration, and adapter training.
             </h2>
