@@ -1,0 +1,1782 @@
+/* ── Tutorial Page ──────────────────────────────────────── */
+
+.tut-page {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 0;
+  position: relative;
+}
+
+/* ── Progress bar ─────────────────────────────────────────── */
+.tut-progress-bar {
+  position: sticky;
+  top: 0;
+  height: 2px;
+  background: rgba(200, 146, 42, 0.1);
+  z-index: 10;
+  flex-shrink: 0;
+}
+
+.tut-progress-fill {
+  height: 100%;
+  background: linear-gradient(90deg, #c8922a, #00d4c8);
+  transition: width 0.3s ease;
+}
+
+/* ── Layout ───────────────────────────────────────────────── */
+.tut-layout {
+  display: grid;
+  grid-template-columns: 200px 1fr;
+  flex: 1;
+  min-height: 0;
+  overflow: hidden;
+}
+
+/* ── Chapter nav ──────────────────────────────────────────── */
+.tut-chapter-nav {
+  border-right: 1px solid var(--border);
+  padding: 20px 0;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  position: sticky;
+  top: 0;
+}
+
+.tut-chapter-nav-title {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  padding: 0 16px 12px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 6px;
+}
+
+.tut-chapter-item {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  background: none;
+  border: none;
+  border-left: 3px solid transparent;
+  padding: 8px 10px 8px 13px;
+  cursor: pointer;
+  text-align: left;
+  width: 100%;
+  transition: color 0.15s, background 0.15s, border-color 0.15s;
+}
+
+.tut-chapter-item:hover { color: var(--text-secondary); background: var(--bg-hover); }
+
+.tut-chapter-num {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--text-muted);
+  opacity: 0.5;
+  flex-shrink: 0;
+}
+
+.tut-chapter-label { flex: 1; }
+
+.tut-chapter-check { color: var(--green); flex-shrink: 0; }
+
+.tut-chapter-active {
+  color: var(--amber);
+  border-left-color: var(--amber);
+  background: rgba(200, 146, 42, 0.07);
+}
+
+.tut-chapter-done .tut-chapter-label { color: var(--text-secondary); }
+
+/* ── Content area ─────────────────────────────────────────── */
+.tut-content {
+  overflow-y: auto;
+  scroll-behavior: smooth;
+}
+
+/* ── Section ──────────────────────────────────────────────── */
+.tut-section {
+  padding: 48px 40px;
+  border-bottom: 1px solid var(--border);
+}
+
+.tut-section-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+
+.tut-section-num {
+  font-family: var(--font-display);
+  font-size: 56px;
+  line-height: 1;
+  color: rgba(200, 146, 42, 0.12);
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+  margin-top: -8px;
+}
+
+.tut-section-head-text {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tut-section-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+
+.tut-section-title {
+  font-family: var(--font-display);
+  font-size: 36px;
+  letter-spacing: 0.06em;
+  color: var(--text-primary);
+  margin: 0;
+  line-height: 1.05;
+}
+
+.tut-section-body {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ── Typography ───────────────────────────────────────────── */
+.tut-lead {
+  font-family: var(--font-body);
+  font-size: 15px;
+  line-height: 1.7;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.tut-body {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.75;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.tut-subsection-title {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.14em;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+  margin: 0;
+}
+
+.tut-hl-amber { color: var(--amber); font-weight: 500; }
+.tut-hl-cyan  { color: var(--cyan);  font-weight: 500; }
+.tut-hl-coral { color: var(--coral); font-weight: 500; }
+.tut-hl-green { color: var(--green); }
+
+/* ── Callout ──────────────────────────────────────────────── */
+.tut-callout {
+  display: flex;
+  gap: 12px;
+  padding: 12px 16px;
+  border-radius: 4px;
+  border-left: 3px solid;
+}
+
+.tut-callout-info  { background: rgba(0,212,200,0.06);   border-color: var(--cyan);   }
+.tut-callout-warn  { background: rgba(224,108,90,0.06);  border-color: var(--coral);  }
+.tut-callout-tip   { background: rgba(200,146,42,0.06);  border-color: var(--amber);  }
+.tut-callout-key   { background: rgba(76,175,125,0.06);  border-color: var(--green);  }
+
+.tut-callout-info .tut-callout-icon  { color: var(--cyan);  flex-shrink: 0; margin-top: 2px; }
+.tut-callout-warn .tut-callout-icon  { color: var(--coral); flex-shrink: 0; margin-top: 2px; }
+.tut-callout-tip .tut-callout-icon   { color: var(--amber); flex-shrink: 0; margin-top: 2px; }
+.tut-callout-key .tut-callout-icon   { color: var(--green); flex-shrink: 0; margin-top: 2px; }
+
+.tut-callout-body {
+  font-family: var(--font-body);
+  font-size: 12px;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.tut-callout-body strong { color: var(--text-primary); }
+.tut-callout-body code {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--cyan);
+  background: rgba(0,212,200,0.08);
+  padding: 1px 5px;
+  border-radius: 2px;
+}
+
+/* ── Screen mock ──────────────────────────────────────────── */
+.tut-screen-mock {
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.tut-screen-titlebar {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 12px;
+  background: var(--bg-raised);
+  border-bottom: 1px solid var(--border);
+}
+
+.tut-screen-dot {
+  width: 8px; height: 8px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.tut-dot-red   { background: #e06c5a; }
+.tut-dot-amber { background: #c8922a; }
+.tut-dot-green { background: #4caf7d; }
+
+.tut-screen-title {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  margin-left: 4px;
+}
+
+.tut-screen-body {
+  padding: 14px 16px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   CHAPTER 1 — WELCOME
+   ══════════════════════════════════════════════════════════ */
+
+.tut-hero-grid {
+  display: grid;
+  grid-template-columns: 1fr 320px;
+  gap: 32px;
+  align-items: start;
+}
+
+.tut-hero-text {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tut-capability-list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin-top: 4px;
+}
+
+.tut-capability-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+}
+
+.tut-cap-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--amber);
+  letter-spacing: 0.06em;
+  min-width: 120px;
+}
+
+.tut-cap-desc {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
+.tut-control-room-svg {
+  width: 100%;
+  height: auto;
+}
+
+.tut-hero-diagram {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tut-diagram-caption {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+  text-align: center;
+  letter-spacing: 0.04em;
+  margin: 0;
+}
+
+.tut-workflow-strip {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 14px 16px;
+  overflow-x: auto;
+}
+
+.tut-wf-step {
+  display: flex;
+  align-items: center;
+  gap: 0;
+  flex-shrink: 0;
+}
+
+.tut-wf-step-box {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 3px;
+  padding: 6px 14px;
+}
+
+.tut-wf-step-num {
+  font-family: var(--font-mono);
+  font-size: 18px;
+  color: rgba(200, 146, 42, 0.2);
+  line-height: 1;
+}
+
+.tut-wf-step-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--amber);
+  white-space: nowrap;
+}
+
+.tut-wf-arrow {
+  color: rgba(200, 146, 42, 0.3);
+  flex-shrink: 0;
+  margin: 0 4px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   CHAPTER 2 — UNIVERSE
+   ══════════════════════════════════════════════════════════ */
+
+.tut-universe-strip {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 0;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.tut-uni-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 8px;
+  border-right: 1px solid var(--border);
+}
+
+.tut-uni-stat:last-child { border-right: none; }
+
+.tut-uni-val {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  line-height: 1;
+  font-weight: 600;
+}
+
+.tut-uni-val-amber { color: var(--amber); }
+.tut-uni-val-cyan  { color: var(--cyan); }
+.tut-uni-val-green { color: var(--green); }
+.tut-uni-val-coral { color: var(--coral); }
+
+.tut-uni-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+/* ── Dossiers ─────────────────────────────────────────────── */
+.tut-dossier-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tut-dossier-layout {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 16px;
+}
+
+.tut-char-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tut-char-btn {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  text-align: left;
+  padding: 10px 12px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: border-color 0.15s, background 0.15s;
+}
+
+.tut-char-btn:hover { background: var(--bg-hover); }
+
+.tut-char-btn-active {
+  border-left-color: var(--char-color, var(--amber));
+  background: rgba(0,0,0,0.2);
+}
+
+.tut-char-btn-name {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-primary);
+  letter-spacing: 0.04em;
+}
+
+.tut-char-btn-role {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+}
+
+.tut-dossier-card {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--char-color, var(--amber));
+  border-radius: 4px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.tut-dossier-header {
+  display: flex;
+  justify-content: space-between;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.tut-dossier-name {
+  font-family: var(--font-display);
+  font-size: 24px;
+  letter-spacing: 0.06em;
+  color: var(--char-color, var(--amber));
+  line-height: 1;
+}
+
+.tut-dossier-role {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+  margin-top: 4px;
+}
+
+.tut-dossier-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.tut-dossier-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  justify-content: flex-end;
+}
+
+.tut-meta-k {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+}
+
+.tut-meta-v {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-secondary);
+}
+
+.tut-lora-tag {
+  color: var(--cyan) !important;
+}
+
+.tut-dossier-bio {
+  font-family: var(--font-body);
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text-secondary);
+  margin: 0;
+}
+
+.tut-dossier-traits {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tut-traits-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+
+.tut-traits-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.tut-trait-tag {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  padding: 3px 8px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  color: var(--text-secondary);
+  letter-spacing: 0.04em;
+}
+
+.tut-dossier-sample {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tut-sample-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+
+.tut-sample-quote {
+  font-family: var(--font-mono);
+  font-size: 12px;
+  color: var(--text-primary);
+  line-height: 1.6;
+  margin: 0;
+  padding: 10px 14px;
+  border-left: 3px solid var(--char-color, var(--amber));
+  background: rgba(0,0,0,0.2);
+  font-style: italic;
+  border-radius: 0 3px 3px 0;
+}
+
+.tut-char-fingerprint {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tut-fingerprint-svg { width: 100%; height: 32px; }
+
+.tut-fingerprint-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+}
+
+/* ── Factions ─────────────────────────────────────────────── */
+.tut-factions-section { display: flex; flex-direction: column; gap: 12px; }
+
+.tut-factions-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+}
+
+.tut-faction-card {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--faction-color, var(--amber));
+  border-radius: 4px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tut-faction-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+
+.tut-faction-name {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--text-primary);
+}
+
+.tut-faction-status {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.06em;
+}
+
+.tut-faction-desc {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--text-muted);
+  line-height: 1.6;
+  margin: 0;
+}
+
+.tut-faction-nodes {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+}
+
+/* ══════════════════════════════════════════════════════════
+   CHAPTER 3 — PIPELINE
+   ══════════════════════════════════════════════════════════ */
+
+.tut-pipeline-diagram {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+  padding: 4px;
+}
+
+.tut-pipe-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+.tut-pipe-stage {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 60px 1fr auto;
+  align-items: center;
+  gap: 16px;
+  padding: 12px 16px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--stage-color, var(--amber));
+  border-radius: 4px;
+  cursor: default;
+  transition: box-shadow 0.2s, background 0.2s;
+}
+
+.tut-pipe-hovered {
+  background: var(--bg-elevated);
+  box-shadow: 0 0 16px rgba(200, 146, 42, 0.1);
+}
+
+.tut-pipe-top {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 3px;
+  color: var(--stage-color, var(--amber));
+}
+
+.tut-pipe-num {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  line-height: 1;
+}
+
+.tut-pipe-label {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.08em;
+  color: var(--stage-color, var(--amber));
+}
+
+.tut-pipe-output {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+.tut-pipe-connector {
+  opacity: 0.5;
+}
+
+.tut-pipe-detail {
+  min-height: 80px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 14px 16px;
+  transition: all 0.2s;
+}
+
+.tut-pipe-detail-inner {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  border-left: 3px solid;
+  padding-left: 12px;
+}
+
+.tut-pipe-detail-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+.tut-pipe-detail-desc {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text-secondary);
+  margin: 0;
+  line-height: 1.6;
+}
+
+.tut-pipe-detail-example {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.tut-pipe-ex-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--text-muted);
+  letter-spacing: 0.1em;
+}
+
+.tut-pipe-ex-val {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--cyan);
+}
+
+.tut-pipe-detail-placeholder {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+  font-style: italic;
+}
+
+/* ── Trace table ──────────────────────────────────────────── */
+.tut-trace-table { display: flex; flex-direction: column; gap: 4px; }
+
+.tut-trace-row {
+  display: grid;
+  grid-template-columns: 16px 120px 1fr 16px auto;
+  gap: 10px;
+  align-items: center;
+  padding: 5px 0;
+  border-bottom: 1px solid rgba(200,146,42,0.06);
+}
+
+.tut-trace-row:last-child { border-bottom: none; }
+
+.tut-trace-status {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  text-align: center;
+}
+
+.tut-trace-done    { color: var(--green); }
+.tut-trace-active  { color: var(--amber); animation: pulse-text 1.2s ease-in-out infinite; }
+.tut-trace-pending { color: var(--text-muted); }
+
+@keyframes pulse-text {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.tut-trace-stage {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--amber);
+  letter-spacing: 0.06em;
+}
+
+.tut-trace-input {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.tut-trace-arrow { color: var(--text-muted); font-family: var(--font-mono); font-size: 10px; }
+
+.tut-trace-output {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--cyan);
+}
+
+/* ══════════════════════════════════════════════════════════
+   CHAPTER 4 — CLUSTER
+   ══════════════════════════════════════════════════════════ */
+
+.tut-cluster-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 12px;
+}
+
+.tut-node-card {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--node-color, var(--amber));
+  border-radius: 4px;
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tut-node-header {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.tut-node-dot {
+  width: 7px; height: 7px;
+  border-radius: 50%;
+  background: var(--node-color, var(--amber));
+  box-shadow: 0 0 5px var(--node-color, var(--amber));
+  flex-shrink: 0;
+}
+
+.tut-node-name {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--text-primary);
+}
+
+.tut-node-gpu {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--node-color, var(--amber));
+}
+
+.tut-node-host {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+}
+
+.tut-node-vram-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.tut-node-vram-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  min-width: 28px;
+}
+
+.tut-node-vram-bar {
+  flex: 1;
+  height: 4px;
+  background: var(--bg-elevated);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.tut-node-vram-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s;
+}
+
+.tut-node-vram-pct {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+  min-width: 26px;
+  text-align: right;
+}
+
+.tut-node-services {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px;
+}
+
+.tut-service-tag {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  padding: 2px 5px;
+  border-radius: 2px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  letter-spacing: 0.04em;
+}
+
+.tut-node-why {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.5;
+  margin: 0;
+  padding-top: 6px;
+  border-top: 1px solid var(--border);
+}
+
+.tut-network-diagram {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tut-network-svg {
+  width: 100%;
+  max-width: 580px;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+
+/* ══════════════════════════════════════════════════════════
+   CHAPTER 5 — MEMORY
+   ══════════════════════════════════════════════════════════ */
+
+.tut-memory-split {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.tut-memory-panel {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.tut-memory-qdrant { border-top: 2px solid var(--cyan); }
+.tut-memory-neo4j  { border-top: 2px solid var(--amber); }
+
+.tut-memory-panel-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 10px;
+}
+
+.tut-qdrant-collections { display: flex; flex-direction: column; gap: 8px; }
+
+.tut-collection-row { display: flex; flex-direction: column; gap: 3px; }
+
+.tut-coll-top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.tut-coll-name {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--cyan);
+}
+
+.tut-coll-count {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+}
+
+.tut-coll-bar {
+  height: 3px;
+  background: rgba(0,212,200,0.1);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.tut-coll-fill {
+  height: 100%;
+  background: var(--cyan);
+  border-radius: 2px;
+  opacity: 0.6;
+}
+
+.tut-coll-use {
+  font-family: var(--font-body);
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.tut-rag-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+.tut-rag-content { display: flex; flex-direction: column; gap: 8px; }
+
+.tut-rag-query {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+}
+
+.tut-rag-results { display: flex; flex-direction: column; gap: 5px; }
+
+.tut-rag-result-row {
+  display: grid;
+  grid-template-columns: 36px 1fr 40px;
+  gap: 8px;
+  align-items: start;
+}
+
+.tut-rag-score {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--green);
+}
+
+.tut-rag-text {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-secondary);
+  font-style: italic;
+}
+
+.tut-rag-src {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--cyan);
+  text-align: right;
+}
+
+.tut-rag-meta {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--text-muted);
+  padding-top: 4px;
+  border-top: 1px solid var(--border);
+}
+
+.tut-neo4j-graph {
+  background: var(--bg-elevated);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.tut-graph-svg { width: 100%; height: auto; }
+
+.tut-constraint-content { display: flex; flex-direction: column; gap: 6px; }
+
+.tut-constraint-query {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+}
+
+.tut-constraint-result {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  padding: 6px 10px;
+  border-radius: 3px;
+}
+
+.tut-constraint-pass {
+  color: var(--green);
+  background: rgba(76,175,125,0.08);
+  border: 1px solid rgba(76,175,125,0.2);
+}
+
+.tut-constraint-fail {
+  color: var(--coral);
+  background: rgba(224,108,90,0.08);
+  border: 1px solid rgba(224,108,90,0.2);
+}
+
+/* ══════════════════════════════════════════════════════════
+   CHAPTER 6 — ADAPTERS
+   ══════════════════════════════════════════════════════════ */
+
+.tut-lora-pyramid {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tut-pyramid-tier {
+  display: grid;
+  grid-template-columns: 120px 1fr;
+  gap: 0;
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.tut-tier-1 { background: rgba(200,146,42,0.06); border: 1px solid rgba(200,146,42,0.25); }
+.tut-tier-2 { background: rgba(155,151,144,0.04); border: 1px solid rgba(155,151,144,0.2); }
+.tut-tier-3 { background: rgba(76,175,125,0.04); border: 1px solid rgba(76,175,125,0.15); }
+
+.tut-tier-badge {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  padding: 12px;
+  text-align: center;
+}
+
+.tut-tier-badge-1 { color: var(--amber); background: rgba(200,146,42,0.08); border-right: 1px solid rgba(200,146,42,0.2); }
+.tut-tier-badge-2 { color: var(--text-secondary); background: rgba(155,151,144,0.06); border-right: 1px solid rgba(155,151,144,0.15); }
+.tut-tier-badge-3 { color: var(--green); background: rgba(76,175,125,0.06); border-right: 1px solid rgba(76,175,125,0.12); }
+
+.tut-tier-content {
+  padding: 12px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.tut-tier-name {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-primary);
+}
+
+.tut-tier-meta {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+  letter-spacing: 0.06em;
+}
+
+.tut-tier-desc {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+/* ── Composition ─────────────────────────────────────────── */
+.tut-composition-example {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.tut-comp-stack {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tut-comp-stack-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--text-muted);
+  letter-spacing: 0.12em;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+}
+
+.tut-comp-layer {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  padding: 10px 12px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-left: 2px solid var(--layer-color, var(--amber));
+  border-radius: 3px;
+}
+
+.tut-comp-layer-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tut-tier-dot {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  padding: 1px 5px;
+  border-radius: 2px;
+  flex-shrink: 0;
+}
+
+.tut-tier-dot-1 { color: var(--amber); background: rgba(200,146,42,0.12); }
+.tut-tier-dot-2 { color: var(--text-secondary); background: rgba(155,151,144,0.1); }
+.tut-tier-dot-3 { color: var(--green); background: rgba(76,175,125,0.1); }
+
+.tut-comp-name {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.tut-comp-rank {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+}
+
+.tut-comp-weight-bar {
+  height: 5px;
+  background: rgba(255,255,255,0.05);
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+}
+
+.tut-comp-weight-fill {
+  height: 100%;
+  background: var(--layer-color, var(--amber));
+  border-radius: 2px;
+  opacity: 0.6;
+}
+
+.tut-comp-weight-label {
+  position: absolute;
+  right: 4px;
+  top: -1px;
+  font-family: var(--font-mono);
+  font-size: 7px;
+  color: var(--text-muted);
+}
+
+.tut-comp-desc {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.5;
+}
+
+.tut-comp-vram {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.tut-comp-vram-title {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  color: var(--text-muted);
+  letter-spacing: 0.12em;
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 8px;
+}
+
+.tut-vram-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 60px;
+  gap: 8px;
+  align-items: center;
+}
+
+.tut-vram-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-secondary);
+}
+
+.tut-vram-bar-outer {
+  height: 6px;
+  background: rgba(255,255,255,0.04);
+  border-radius: 3px;
+  overflow: hidden;
+}
+
+.tut-vram-bar-inner {
+  height: 100%;
+  border-radius: 3px;
+}
+
+.tut-vram-gb {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+  text-align: right;
+}
+
+.tut-vram-total {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid var(--border);
+  padding-top: 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.tut-vram-total-val {
+  color: var(--text-primary);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ══════════════════════════════════════════════════════════
+   CHAPTER 7 — AGENTS
+   ══════════════════════════════════════════════════════════ */
+
+.tut-agents-layout {
+  display: grid;
+  grid-template-columns: 180px 1fr;
+  gap: 16px;
+}
+
+.tut-agent-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.tut-agent-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  border-radius: 3px;
+  padding: 9px 10px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+}
+
+.tut-agent-item:hover { background: var(--bg-hover); color: var(--text-secondary); }
+
+.tut-agent-active {
+  border-left-color: var(--agent-color, var(--amber));
+  color: var(--agent-color, var(--amber));
+  background: rgba(0,0,0,0.15);
+}
+
+.tut-agent-item-name { flex: 1; }
+
+.tut-agent-chevron { opacity: 0; transition: opacity 0.15s; }
+.tut-agent-active .tut-agent-chevron,
+.tut-agent-item:hover .tut-agent-chevron { opacity: 0.5; }
+
+.tut-agent-detail {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--agent-color, var(--amber));
+  border-radius: 4px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tut-agent-detail-name {
+  font-family: var(--font-display);
+  font-size: 20px;
+  letter-spacing: 0.07em;
+  color: var(--agent-color, var(--amber));
+}
+
+.tut-agent-detail-model {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.tut-agent-detail-loras {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+}
+
+.tut-agent-lora-tag {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  padding: 2px 7px;
+  border-radius: 2px;
+  background: rgba(0,212,200,0.08);
+  color: var(--cyan);
+  border: 1px solid rgba(0,212,200,0.2);
+}
+
+.tut-agent-no-lora {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+  font-style: italic;
+}
+
+.tut-agent-detail-role {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.65;
+  margin: 0;
+}
+
+.tut-agent-trace {
+  border-top: 1px solid var(--border);
+  padding-top: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.tut-agent-trace-title {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  margin-bottom: 4px;
+}
+
+/* ── Script output ────────────────────────────────────────── */
+.tut-script-output {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.tut-script-slug {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.06em;
+  color: var(--amber);
+  margin-bottom: 4px;
+}
+
+.tut-script-action {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  padding-left: 8px;
+}
+
+.tut-script-dialogue {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  padding-left: 80px;
+}
+
+.tut-script-speaker {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-primary);
+  letter-spacing: 0.08em;
+  text-align: center;
+  margin-left: -40px;
+}
+
+.tut-script-line {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.tut-script-generating {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  font-style: italic;
+  padding-left: 8px;
+  margin-top: 4px;
+}
+
+.tut-script-gen-dot {
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  background: var(--amber);
+  animation: pulse-dot 1s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%       { opacity: 0.4; transform: scale(0.7); }
+}
+
+/* ══════════════════════════════════════════════════════════
+   CHAPTER 8 — GENERATION
+   ══════════════════════════════════════════════════════════ */
+
+.tut-gen-steps {
+  display: grid;
+  grid-template-columns: 220px 1fr;
+  gap: 16px;
+}
+
+.tut-gen-step-list {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.tut-gen-step-btn {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.05em;
+  color: var(--text-muted);
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-left: 3px solid transparent;
+  border-radius: 3px;
+  padding: 9px 11px;
+  cursor: pointer;
+  text-align: left;
+  transition: all 0.15s;
+}
+
+.tut-gen-step-btn:hover { color: var(--text-secondary); background: var(--bg-hover); }
+
+.tut-gen-step-active {
+  color: var(--amber);
+  border-left-color: var(--amber);
+  background: rgba(200,146,42,0.06);
+}
+
+.tut-gen-step-done {
+  color: var(--green);
+  border-left-color: var(--green);
+  opacity: 0.75;
+}
+
+.tut-gen-step-detail {
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tut-gen-step-label {
+  font-family: var(--font-display);
+  font-size: 20px;
+  letter-spacing: 0.07em;
+  color: var(--amber);
+}
+
+.tut-gen-step-desc {
+  font-family: var(--font-body);
+  font-size: 13px;
+  color: var(--text-secondary);
+  line-height: 1.7;
+  margin: 0;
+}
+
+.tut-gen-step-action {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 10px 12px;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: 3px;
+}
+
+.tut-gen-action-label {
+  font-family: var(--font-mono);
+  font-size: 8px;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+  flex-shrink: 0;
+  padding-top: 1px;
+}
+
+.tut-gen-action-val {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--cyan);
+  line-height: 1.5;
+}
+
+.tut-gen-step-nav {
+  display: flex;
+  gap: 8px;
+  margin-top: auto;
+}
+
+.tut-gen-nav-btn {
+  font-size: 10px;
+  padding: 7px 14px;
+}
+
+/* ── Output summary ───────────────────────────────────────── */
+.tut-output-summary {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 0;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.tut-output-stat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  padding: 16px 8px;
+  border-right: 1px solid var(--border);
+}
+
+.tut-output-stat:last-child { border-right: none; }
+
+.tut-output-val {
+  font-family: var(--font-mono);
+  font-size: 16px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.tut-output-label {
+  font-family: var(--font-mono);
+  font-size: 7px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-align: center;
+}
+
+/* ── What's next ──────────────────────────────────────────── */
+.tut-whats-next { display: flex; flex-direction: column; gap: 12px; }
+
+.tut-next-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+}
+
+.tut-next-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 14px;
+  background: var(--bg-raised);
+  border: 1px solid var(--border);
+  border-top: 2px solid var(--next-color, var(--amber));
+  border-radius: 4px;
+  text-decoration: none;
+  transition: box-shadow 0.2s, background 0.2s;
+}
+
+.tut-next-card:hover {
+  background: var(--bg-elevated);
+  box-shadow: 0 0 16px rgba(200,146,42,0.1);
+}
+
+.tut-next-card-top {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.tut-next-page {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.08em;
+  color: var(--text-primary);
+  flex: 1;
+}
+
+.tut-next-chevron {
+  color: var(--next-color, var(--amber));
+  opacity: 0;
+  transition: opacity 0.15s;
+}
+
+.tut-next-card:hover .tut-next-chevron { opacity: 1; }
+
+.tut-next-desc {
+  font-family: var(--font-body);
+  font-size: 11px;
+  color: var(--text-muted);
+  line-height: 1.55;
+  margin: 0;
+}

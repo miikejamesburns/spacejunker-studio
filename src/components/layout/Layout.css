@@ -1,0 +1,22 @@
+.layout {
+  display: flex;
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.layout-main {
+  flex: 1;
+  margin-left: var(--sidebar-collapsed);
+  margin-top: var(--topbar-height);
+  overflow-y: auto;
+  overflow-x: hidden;
+  height: calc(100vh - var(--topbar-height));
+  background: var(--bg-base);
+}
+
+.layout-content {
+  min-height: 100%;
+  padding: 24px;
+  animation: fade-in 0.2s ease;
+}

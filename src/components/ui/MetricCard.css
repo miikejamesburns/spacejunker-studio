@@ -1,0 +1,26 @@
+.metric-card {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.metric-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--text-muted);
+}
+
+.metric-value {
+  font-size: 20px;
+  line-height: 1.1;
+  color: var(--text-primary);
+  animation: count-up 0.4s ease;
+}
+
+.metric-delta {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+}

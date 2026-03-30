@@ -1,0 +1,54 @@
+.progress-bar-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.progress-label-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.progress-label {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+}
+
+.progress-value {
+  font-size: 11px;
+  color: var(--text-secondary);
+}
+
+.progress-segments {
+  display: flex;
+  gap: 2px;
+  align-items: center;
+}
+
+/* Size variants */
+.progress-xs .progress-segments { gap: 1px; }
+.progress-sm .progress-segments { gap: 2px; }
+.progress-md .progress-segments { gap: 2px; }
+
+.progress-seg {
+  flex: 1;
+  border-radius: 1px;
+  transition: background 0.3s ease;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* Heights */
+.progress-xs .progress-seg { height: 4px; }
+.progress-sm .progress-seg { height: 6px; }
+.progress-md .progress-seg { height: 8px; }
+
+/* Accent colors — filled state */
+.progress-seg.seg-amber.filled  { background: var(--amber); box-shadow: 0 0 3px rgba(200,146,42,0.4); }
+.progress-seg.seg-cyan.filled   { background: var(--cyan);  box-shadow: 0 0 3px rgba(0,212,200,0.4); }
+.progress-seg.seg-coral.filled  { background: var(--coral); box-shadow: 0 0 3px rgba(224,108,90,0.4); }
+.progress-seg.seg-green.filled  { background: var(--green); box-shadow: 0 0 3px rgba(76,175,125,0.4); }

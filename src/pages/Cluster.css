@@ -1,0 +1,373 @@
+/* ── Title Row ── */
+.cluster-title-row {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+/* ── Node Cards Grid ── */
+.cluster-nodes-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+/* ── Node Card ── */
+.node-card {
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  border-left-width: 3px;
+  border-left-style: solid;
+  transition: box-shadow 0.2s ease, border-left-color 0.2s ease;
+}
+
+.node-accent-green {
+  border-left-color: var(--green);
+}
+.node-accent-amber {
+  border-left-color: var(--amber);
+  box-shadow: -2px 0 12px rgba(200,146,42,0.12), var(--shadow-card);
+}
+.node-accent-coral {
+  border-left-color: var(--coral);
+  box-shadow: -2px 0 12px rgba(224,108,90,0.12), var(--shadow-card);
+}
+.node-accent-grey {
+  border-left-color: var(--text-muted);
+  opacity: 0.6;
+}
+
+/* Card Header */
+.node-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.node-status-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.node-status-label {
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+.node-status-green { color: var(--green); }
+.node-status-amber { color: var(--amber); }
+.node-status-coral { color: var(--coral); }
+.node-status-grey  { color: var(--text-muted); }
+
+.node-edit-btn {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  padding: 4px 6px;
+  border-radius: 3px;
+  display: flex;
+  align-items: center;
+  font-size: 10px;
+  gap: 4px;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.node-edit-btn:hover {
+  border-color: var(--amber-dim);
+  color: var(--amber);
+}
+
+/* Title block */
+.node-title {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.node-gpu {
+  font-size: 16px;
+  color: var(--text-primary);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.node-name {
+  font-size: 11px;
+  color: var(--text-muted);
+  font-family: var(--font-body);
+}
+
+.node-divider {
+  height: 1px;
+  background: var(--border-dim);
+}
+
+/* Resource bars */
+.node-resources {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+.node-resource-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.node-res-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  width: 30px;
+  flex-shrink: 0;
+}
+
+.node-res-total {
+  font-size: 9px;
+  color: var(--text-muted);
+  width: 32px;
+  flex-shrink: 0;
+  text-align: right;
+}
+
+.node-res-bar {
+  flex: 1;
+}
+
+.node-res-pct {
+  font-size: 10px;
+  width: 34px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* Info rows */
+.node-info-rows {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.node-info-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.node-info-key {
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--text-muted);
+  flex: 1;
+}
+
+.node-info-val {
+  font-size: 10px;
+  text-align: right;
+  max-width: 120px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Service chips */
+.node-services-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+.node-svc-chip {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  padding: 2px 6px;
+  background: rgba(255,255,255,0.04);
+  border: 1px solid var(--border-dim);
+  border-radius: 2px;
+  color: var(--text-muted);
+}
+
+/* Node Actions */
+.node-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.node-action-btn {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  padding: 7px 4px;
+  font-size: 10px;
+  letter-spacing: 0.06em;
+}
+
+/* ── Service Table ── */
+.cluster-services {
+  padding: 16px;
+  margin-bottom: 18px;
+}
+
+.services-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 14px;
+}
+
+.services-title-group {
+  display: flex;
+  align-items: baseline;
+  gap: 12px;
+}
+
+.services-filter {
+  display: flex;
+  gap: 4px;
+}
+
+.services-filter-btn {
+  padding: 4px 10px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.12s;
+}
+.services-filter-btn:hover {
+  border-color: var(--amber-dim);
+  color: var(--text-secondary);
+}
+.services-filter-btn.active {
+  background: var(--amber-glow);
+  border-color: var(--amber-dim);
+  color: var(--amber);
+}
+
+.services-table {
+  font-size: 12px;
+}
+
+.svc-action-group {
+  display: flex;
+  gap: 6px;
+}
+
+.svc-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 9px;
+  letter-spacing: 0.06em;
+  border-radius: 2px;
+  cursor: pointer;
+  transition: all 0.12s;
+  text-transform: uppercase;
+}
+.svc-action-btn:hover {
+  border-color: var(--amber-dim);
+  color: var(--amber);
+  background: var(--amber-glow);
+}
+
+/* ── Topology ── */
+.cluster-topology {
+  padding: 16px;
+}
+
+.topology-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.topology-title-group {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.topology-wrap {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.topology-svg {
+  display: block;
+  background: rgba(0,0,0,0.2);
+  border: 1px solid var(--border-dim);
+  border-radius: var(--radius-sm);
+}
+
+.topology-node {
+  cursor: pointer;
+}
+
+.topology-legend {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding: 0 4px;
+}
+
+.topology-legend-item {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.topo-leg-line {
+  display: inline-block;
+  height: 2px;
+  background: rgba(200,146,42,0.4);
+  border-radius: 1px;
+}
+.topo-leg-thick { width: 24px; height: 3px; }
+.topo-leg-thin  { width: 24px; height: 1px; }
+
+.topo-leg-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+/* ── Topology Animations ── */
+@keyframes topology-flow {
+  from { stroke-dashoffset: 60; }
+  to   { stroke-dashoffset: 0; }
+}
+
+@keyframes topology-ring-pulse {
+  0%, 100% { opacity: 0.3; r: 36; }
+  50%       { opacity: 0.6; r: 40; }
+}

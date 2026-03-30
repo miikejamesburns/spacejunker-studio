@@ -1,0 +1,390 @@
+/* ── Title Row ── */
+.overview-title-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 18px;
+}
+
+.overview-title-meta {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ── Health Cards ── */
+.overview-health-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 14px;
+  margin-bottom: 18px;
+}
+
+.health-card {
+  padding: 14px 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.health-card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.health-card-title-group {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.health-card-value {
+  font-size: 24px;
+  color: var(--text-primary);
+  line-height: 1;
+  letter-spacing: -0.01em;
+}
+
+.health-unit {
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.02em;
+}
+
+.health-divider {
+  height: 1px;
+  background: var(--border-dim);
+  margin: 2px 0;
+}
+
+.health-row-stat {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Node rows */
+.health-nodes {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.health-node-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.health-node-name {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+  text-transform: uppercase;
+  width: 65px;
+  flex-shrink: 0;
+  letter-spacing: 0.04em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.health-node-pct {
+  font-size: 10px;
+  width: 30px;
+  text-align: right;
+  flex-shrink: 0;
+}
+
+/* Memory Layer */
+.health-memory-stats {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  flex: 1;
+}
+
+.health-mem-block {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.health-mem-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+
+.health-mem-value {
+  font-size: 20px;
+  line-height: 1;
+}
+
+.health-mem-sub {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  color: var(--text-muted);
+}
+
+.health-mem-bar {
+  height: 3px;
+  background: rgba(0,212,200,0.08);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-top: 3px;
+}
+
+.health-mem-bar-fill {
+  height: 100%;
+  background: var(--cyan);
+  border-radius: 2px;
+  box-shadow: 0 0 4px rgba(0,212,200,0.4);
+  transition: width 0.6s ease;
+}
+
+/* Arc */
+.health-arc-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin-top: 4px;
+}
+
+.health-arc-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  margin-top: -6px;
+}
+
+.health-arc-pct {
+  font-size: 22px;
+  color: var(--amber);
+  letter-spacing: -0.02em;
+}
+
+/* Coverage breakdown */
+.health-coverage-breakdown {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.health-coverage-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+/* Adapter tier rows */
+.health-adapter-bars {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.health-adapter-row {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+
+.health-tier-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+/* ── Body: 60/40 split ── */
+.overview-body {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 14px;
+  align-items: start;
+}
+
+/* ── Feed ── */
+.overview-feed {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.feed-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.feed-title-group {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* ── Right column ── */
+.overview-right {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.overview-panel {
+  padding: 14px 16px;
+}
+
+.panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.actions-list {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+}
+
+/* ── Active Run ── */
+.run-meta {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+  margin-bottom: 10px;
+}
+
+.run-series {
+  font-size: 13px;
+  color: var(--amber);
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.run-episode {
+  font-size: 10px;
+  color: var(--text-muted);
+}
+
+.run-stages {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-bottom: 10px;
+}
+
+.run-stage {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.run-stage-dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.dot-stage-done    { background: var(--green);  }
+.dot-stage-active  { background: var(--amber);  animation: pulse-medium 1.8s ease-in-out infinite; }
+.dot-stage-pending { background: var(--text-muted); }
+
+.run-stage-label {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-muted);
+}
+.run-stage-label.active {
+  color: var(--amber);
+}
+
+.run-tokens {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+}
+
+.run-footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 6px;
+}
+
+/* ── Mini node ── */
+.mini-node {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-dim);
+}
+.mini-node:last-child { border-bottom: none; }
+
+.mini-node-info {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  min-width: 0;
+}
+
+.mini-node-name {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mini-node-role {
+  font-size: 10px;
+  color: var(--text-muted);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.mini-node-stats {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 2px;
+  flex-shrink: 0;
+}
+
+/* ── Mini Series ── */
+.mini-series {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--border-dim);
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.mini-series:last-child { border-bottom: none; }
+
+.mini-series-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.mini-series-score {
+  font-size: 13px;
+}

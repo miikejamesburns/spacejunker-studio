@@ -1,0 +1,227 @@
+.log-feed {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  flex: 1;
+  min-height: 0;
+  position: relative;
+}
+
+/* ── Controls ── */
+.log-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 0 0 10px 0;
+  border-bottom: 1px solid var(--border-dim);
+  margin-bottom: 4px;
+  flex-shrink: 0;
+}
+
+.log-filters {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  flex-wrap: nowrap;
+}
+
+.log-filter-group {
+  position: relative;
+}
+
+.log-filter-btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 9px;
+  background: var(--bg-input);
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: all 0.12s;
+  white-space: nowrap;
+}
+.log-filter-btn:hover {
+  border-color: var(--amber-dim);
+  color: var(--text-secondary);
+}
+.log-filter-btn.active {
+  background: var(--amber-glow);
+  border-color: var(--amber-dim);
+  color: var(--amber);
+}
+
+.log-filter-clear {
+  display: flex;
+  align-items: center;
+  opacity: 0.6;
+  padding: 1px;
+  border-radius: 2px;
+  cursor: pointer;
+}
+.log-filter-clear:hover { opacity: 1; }
+
+.log-clear-all {
+  color: var(--coral-dim);
+  border-color: rgba(224,108,90,0.15);
+}
+.log-clear-all:hover {
+  color: var(--coral);
+  border-color: var(--coral-dim);
+}
+
+.log-count {
+  font-family: var(--font-mono);
+  font-size: 10px;
+  color: var(--text-secondary);
+  padding-left: 4px;
+}
+
+/* Dropdowns */
+.log-dropdown {
+  position: absolute;
+  top: calc(100% + 4px);
+  left: 0;
+  z-index: 200;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border-bright);
+  border-radius: var(--radius-sm);
+  min-width: 160px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.5);
+  overflow: hidden;
+}
+.log-dropdown-wide { min-width: 200px; }
+
+.log-dropdown-item {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  padding: 6px 10px;
+  background: transparent;
+  border: none;
+  color: var(--text-secondary);
+  font-family: var(--font-mono);
+  font-size: 10px;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  cursor: pointer;
+  text-align: left;
+  transition: background 0.1s;
+  border-bottom: 1px solid var(--border-dim);
+}
+.log-dropdown-item:last-child { border-bottom: none; }
+.log-dropdown-item:hover { background: var(--bg-hover); color: var(--text-primary); }
+.log-dropdown-item.selected { color: var(--amber); background: var(--amber-glow); }
+
+/* Auto-scroll toggle */
+.log-autoscroll-btn {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 8px;
+  font-size: 9px;
+  letter-spacing: 0.08em;
+  border-radius: 3px;
+  transition: all 0.12s;
+  flex-shrink: 0;
+}
+.log-autoscroll-btn.on {
+  background: var(--cyan-glow);
+  border: 1px solid rgba(0,212,200,0.2);
+  color: var(--cyan);
+}
+.log-autoscroll-btn.off {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text-muted);
+}
+
+/* ── Header Row ── */
+.log-header-row {
+  display: grid;
+  grid-template-columns: 68px 110px 148px 1fr;
+  gap: 10px;
+  padding: 5px 8px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+
+.log-header-row span {
+  font-family: var(--font-mono);
+  font-size: 9px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--text-muted);
+}
+
+/* ── Rows ── */
+.log-rows {
+  overflow-y: auto;
+  flex: 1;
+}
+
+.log-row {
+  display: grid;
+  grid-template-columns: 68px 110px 148px 1fr;
+  gap: 10px;
+  padding: 5px 8px;
+  border-bottom: 1px solid var(--border-dim);
+  align-items: center;
+  transition: background 0.1s ease;
+}
+
+.log-row:hover {
+  background: var(--bg-hover);
+}
+
+@keyframes log-new-flash {
+  from { background: rgba(200, 146, 42, 0.08); }
+  to   { background: transparent; }
+}
+
+.log-row-new {
+  animation: log-new-flash 1.5s ease-out;
+}
+
+.log-col-ts {
+  font-size: 11px;
+  flex-shrink: 0;
+  letter-spacing: 0.02em;
+}
+
+.log-col-agent {
+  font-size: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.log-col-type {
+  display: flex;
+  align-items: center;
+}
+
+.log-col-detail {
+  font-family: var(--font-body);
+  font-size: 12px;
+  color: var(--text-secondary);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.log-empty {
+  padding: 32px;
+  text-align: center;
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--text-muted);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}

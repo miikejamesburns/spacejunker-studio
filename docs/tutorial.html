@@ -1,0 +1,1968 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Autonomous Studio — Tutorial &amp; Field Guide</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:ital,wght@0,400;0,700;1,400&family=DM+Sans:wght@300;400;500&display=swap');
+
+  /* ── Tokens ── */
+  :root {
+    --bg:      #0d0d0f;
+    --raised:  #1a1a1f;
+    --elev:    #1f1f26;
+    --border:  rgba(200,146,42,0.18);
+    --amber:   #c8922a;
+    --cyan:    #00d4c8;
+    --coral:   #e06c5a;
+    --green:   #4caf7d;
+    --muted:   #5a5855;
+    --sec:     #9b9790;
+    --pri:     #e8e6e0;
+    --display: 'Bebas Neue', sans-serif;
+    --mono:    'Space Mono', monospace;
+    --body:    'DM Sans', sans-serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { background: var(--bg); color: var(--pri); font-family: var(--body); }
+
+  body {
+    background: var(--bg);
+    color: var(--pri);
+    font-family: var(--body);
+    font-size: 11pt;
+    line-height: 1.6;
+    -webkit-print-color-adjust: exact;
+    print-color-adjust: exact;
+  }
+
+  /* ── Page layout ── */
+  .page { width: 210mm; margin: 0 auto; }
+
+  /* ── Cover ── */
+  .cover {
+    height: 297mm;
+    background: var(--bg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    padding: 40mm 24mm;
+    position: relative;
+    overflow: hidden;
+    page-break-after: always;
+  }
+
+  .cover-noise {
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .cover-grid-lines {
+    position: absolute;
+    inset: 0;
+    background-image:
+      linear-gradient(rgba(200,146,42,0.04) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(200,146,42,0.04) 1px, transparent 1px);
+    background-size: 24px 24px;
+    pointer-events: none;
+  }
+
+  .cover-accent-bar {
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 6px;
+    background: linear-gradient(180deg, var(--amber) 0%, var(--cyan) 100%);
+  }
+
+  .cover-tag {
+    font-family: var(--mono);
+    font-size: 8pt;
+    letter-spacing: 0.18em;
+    color: var(--muted);
+    margin-bottom: 16mm;
+  }
+
+  .cover-title {
+    font-family: var(--display);
+    font-size: 72pt;
+    line-height: 0.95;
+    letter-spacing: 0.04em;
+    color: var(--pri);
+    margin-bottom: 6mm;
+  }
+
+  .cover-title span { color: var(--amber); }
+
+  .cover-subtitle {
+    font-family: var(--display);
+    font-size: 28pt;
+    letter-spacing: 0.08em;
+    color: var(--sec);
+    margin-bottom: 20mm;
+  }
+
+  .cover-rule { width: 60mm; height: 1px; background: var(--border); margin-bottom: 10mm; }
+
+  .cover-desc {
+    font-family: var(--body);
+    font-size: 11pt;
+    color: var(--sec);
+    line-height: 1.65;
+    max-width: 120mm;
+    margin-bottom: 20mm;
+  }
+
+  .cover-stats {
+    display: flex;
+    gap: 10mm;
+  }
+
+  .cover-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 2mm;
+  }
+
+  .cover-stat-val {
+    font-family: var(--mono);
+    font-size: 18pt;
+    color: var(--amber);
+    line-height: 1;
+  }
+
+  .cover-stat-label {
+    font-family: var(--mono);
+    font-size: 6pt;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .cover-footer {
+    position: absolute;
+    bottom: 20mm;
+    left: 24mm;
+    right: 24mm;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+
+  .cover-footer-left {
+    font-family: var(--mono);
+    font-size: 7pt;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  .cover-footer-right {
+    font-family: var(--mono);
+    font-size: 7pt;
+    color: var(--muted);
+  }
+
+  /* ── TOC ── */
+  .toc {
+    padding: 28mm 24mm;
+    page-break-after: always;
+    min-height: 297mm;
+  }
+
+  .toc-title {
+    font-family: var(--display);
+    font-size: 32pt;
+    letter-spacing: 0.07em;
+    color: var(--amber);
+    margin-bottom: 12mm;
+  }
+
+  .toc-entry {
+    display: flex;
+    align-items: baseline;
+    gap: 3mm;
+    padding: 3mm 0;
+    border-bottom: 1px solid rgba(200,146,42,0.08);
+  }
+
+  .toc-num {
+    font-family: var(--mono);
+    font-size: 8pt;
+    color: var(--muted);
+    min-width: 8mm;
+  }
+
+  .toc-label {
+    font-family: var(--mono);
+    font-size: 9pt;
+    color: var(--pri);
+    flex: 1;
+  }
+
+  .toc-dots {
+    flex: 1;
+    border-bottom: 1px dotted rgba(200,146,42,0.2);
+    margin: 0 3mm;
+    height: 5mm;
+  }
+
+  .toc-page {
+    font-family: var(--mono);
+    font-size: 8pt;
+    color: var(--amber);
+  }
+
+  /* ── Chapter header ── */
+  .chapter {
+    padding: 20mm 24mm 14mm;
+    page-break-before: always;
+  }
+
+  .chapter-rule-top {
+    display: flex;
+    align-items: center;
+    gap: 4mm;
+    margin-bottom: 8mm;
+  }
+
+  .chapter-num-big {
+    font-family: var(--display);
+    font-size: 80pt;
+    line-height: 1;
+    color: rgba(200,146,42,0.1);
+    letter-spacing: 0.02em;
+  }
+
+  .chapter-head-text {
+    display: flex;
+    flex-direction: column;
+    gap: 2mm;
+  }
+
+  .chapter-kicker {
+    font-family: var(--mono);
+    font-size: 7pt;
+    letter-spacing: 0.16em;
+    color: var(--muted);
+    text-transform: uppercase;
+  }
+
+  .chapter-title {
+    font-family: var(--display);
+    font-size: 34pt;
+    letter-spacing: 0.06em;
+    color: var(--pri);
+    line-height: 1.05;
+  }
+
+  .chapter-rule-bottom {
+    height: 1px;
+    background: var(--border);
+    margin-bottom: 8mm;
+  }
+
+  /* ── Body typography ── */
+  .lead {
+    font-family: var(--body);
+    font-size: 12pt;
+    line-height: 1.75;
+    color: var(--pri);
+    margin-bottom: 7mm;
+  }
+
+  p, .body-text {
+    font-family: var(--body);
+    font-size: 10.5pt;
+    line-height: 1.7;
+    color: var(--sec);
+    margin-bottom: 5mm;
+  }
+
+  h3 {
+    font-family: var(--mono);
+    font-size: 7.5pt;
+    letter-spacing: 0.14em;
+    color: var(--muted);
+    text-transform: uppercase;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2mm;
+    margin: 7mm 0 4mm;
+  }
+
+  strong { color: var(--pri); font-weight: 500; }
+  em     { font-style: italic; color: var(--sec); }
+  code   {
+    font-family: var(--mono);
+    font-size: 9pt;
+    color: var(--cyan);
+    background: rgba(0,212,200,0.08);
+    padding: 1pt 4pt;
+    border-radius: 2pt;
+  }
+
+  .amber { color: var(--amber); }
+  .cyan  { color: var(--cyan); }
+  .coral { color: var(--coral); }
+  .green { color: var(--green); }
+
+  /* ── Callout ── */
+  .callout {
+    display: flex;
+    gap: 4mm;
+    padding: 4mm 5mm;
+    border-radius: 3pt;
+    border-left: 3pt solid;
+    margin: 5mm 0;
+  }
+
+  .callout-info  { background: rgba(0,212,200,0.05);  border-color: var(--cyan);  }
+  .callout-warn  { background: rgba(224,108,90,0.05); border-color: var(--coral); }
+  .callout-tip   { background: rgba(200,146,42,0.05); border-color: var(--amber); }
+  .callout-key   { background: rgba(76,175,125,0.05); border-color: var(--green); }
+
+  .callout-icon {
+    font-family: var(--mono);
+    font-size: 9pt;
+    flex-shrink: 0;
+    padding-top: 1pt;
+  }
+
+  .callout-info  .callout-icon { color: var(--cyan); }
+  .callout-warn  .callout-icon { color: var(--coral); }
+  .callout-tip   .callout-icon { color: var(--amber); }
+  .callout-key   .callout-icon { color: var(--green); }
+
+  .callout-body {
+    font-family: var(--body);
+    font-size: 10pt;
+    color: var(--sec);
+    line-height: 1.6;
+  }
+
+  /* ── Panel / Card ── */
+  .panel {
+    background: var(--raised);
+    border: 1px solid var(--border);
+    border-radius: 3pt;
+    padding: 5mm 6mm;
+    margin: 4mm 0;
+  }
+
+  .panel-title {
+    font-family: var(--mono);
+    font-size: 7pt;
+    letter-spacing: 0.12em;
+    color: var(--muted);
+    text-transform: uppercase;
+    margin-bottom: 3mm;
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 2mm;
+  }
+
+  .panel-amber { border-left: 3pt solid var(--amber); }
+  .panel-cyan  { border-left: 3pt solid var(--cyan); border-top: 2pt solid var(--cyan); }
+  .panel-coral { border-left: 3pt solid var(--coral); }
+  .panel-green { border-left: 3pt solid var(--green); }
+
+  /* ── Grid ── */
+  .grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 4mm; margin: 4mm 0; }
+  .grid-3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 4mm; margin: 4mm 0; }
+  .grid-4 { display: grid; grid-template-columns: 1fr 1fr 1fr 1fr; gap: 3mm; margin: 4mm 0; }
+
+  /* ── Stat strip ── */
+  .stat-strip {
+    display: flex;
+    background: var(--raised);
+    border: 1px solid var(--border);
+    border-radius: 3pt;
+    overflow: hidden;
+    margin: 4mm 0;
+  }
+
+  .stat-cell {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 4mm 2mm;
+    border-right: 1px solid var(--border);
+    gap: 1mm;
+  }
+
+  .stat-cell:last-child { border-right: none; }
+
+  .stat-val {
+    font-family: var(--mono);
+    font-size: 14pt;
+    color: var(--amber);
+    line-height: 1;
+  }
+
+  .stat-val.cyan  { color: var(--cyan); }
+  .stat-val.green { color: var(--green); }
+
+  .stat-label {
+    font-family: var(--mono);
+    font-size: 5.5pt;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-align: center;
+  }
+
+  /* ── Node card ── */
+  .node-card {
+    background: var(--raised);
+    border: 1px solid var(--border);
+    border-radius: 3pt;
+    padding: 4mm 5mm;
+  }
+
+  .node-card-name {
+    font-family: var(--mono);
+    font-size: 9pt;
+    letter-spacing: 0.06em;
+    margin-bottom: 1mm;
+  }
+
+  .node-card-gpu {
+    font-family: var(--mono);
+    font-size: 7.5pt;
+    color: var(--muted);
+    margin-bottom: 2mm;
+  }
+
+  .vram-bar-wrap {
+    display: flex;
+    align-items: center;
+    gap: 2mm;
+    margin-bottom: 2mm;
+  }
+
+  .vram-bar-label {
+    font-family: var(--mono);
+    font-size: 6pt;
+    color: var(--muted);
+    min-width: 10mm;
+  }
+
+  .vram-bar-outer {
+    flex: 1;
+    height: 4pt;
+    background: rgba(255,255,255,0.05);
+    border-radius: 2pt;
+    overflow: hidden;
+  }
+
+  .vram-bar-inner {
+    height: 100%;
+    border-radius: 2pt;
+  }
+
+  .vram-bar-pct {
+    font-family: var(--mono);
+    font-size: 6pt;
+    color: var(--muted);
+    min-width: 8mm;
+    text-align: right;
+  }
+
+  .node-services {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5mm;
+    margin-bottom: 2mm;
+  }
+
+  .service-tag {
+    font-family: var(--mono);
+    font-size: 6pt;
+    padding: 1pt 4pt;
+    border: 1px solid var(--border);
+    border-radius: 1.5pt;
+    color: var(--muted);
+  }
+
+  .node-why {
+    font-family: var(--body);
+    font-size: 8.5pt;
+    color: var(--muted);
+    line-height: 1.5;
+    border-top: 1px solid var(--border);
+    padding-top: 2mm;
+  }
+
+  /* ── Character dossier ── */
+  .dossier {
+    background: var(--raised);
+    border: 1px solid var(--border);
+    border-radius: 3pt;
+    padding: 5mm 6mm;
+    margin: 4mm 0;
+    page-break-inside: avoid;
+  }
+
+  .dossier-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 3mm;
+    padding-bottom: 3mm;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .dossier-name {
+    font-family: var(--display);
+    font-size: 20pt;
+    letter-spacing: 0.05em;
+    line-height: 1;
+  }
+
+  .dossier-role {
+    font-family: var(--mono);
+    font-size: 7pt;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+    margin-top: 1mm;
+  }
+
+  .dossier-meta {
+    display: flex;
+    flex-direction: column;
+    gap: 1mm;
+    text-align: right;
+  }
+
+  .meta-row {
+    display: flex;
+    gap: 3mm;
+    justify-content: flex-end;
+  }
+
+  .meta-k {
+    font-family: var(--mono);
+    font-size: 6.5pt;
+    color: var(--muted);
+    letter-spacing: 0.1em;
+  }
+
+  .meta-v {
+    font-family: var(--mono);
+    font-size: 7.5pt;
+    color: var(--sec);
+  }
+
+  .meta-v.alive { color: var(--green); }
+  .meta-v.lora  { color: var(--cyan); }
+
+  .dossier-bio {
+    font-family: var(--body);
+    font-size: 9.5pt;
+    color: var(--sec);
+    line-height: 1.65;
+    margin-bottom: 3mm;
+  }
+
+  .dossier-traits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5mm;
+    margin-bottom: 3mm;
+  }
+
+  .trait-tag {
+    font-family: var(--mono);
+    font-size: 6.5pt;
+    padding: 1.5pt 5pt;
+    border: 1px solid var(--border);
+    border-radius: 2pt;
+    color: var(--muted);
+  }
+
+  .dossier-quote {
+    font-family: var(--mono);
+    font-size: 9pt;
+    color: var(--pri);
+    font-style: italic;
+    line-height: 1.5;
+    padding: 3mm 4mm;
+    border-left: 2.5pt solid var(--amber);
+    background: rgba(0,0,0,0.2);
+    border-radius: 0 2pt 2pt 0;
+  }
+
+  /* ── Pipeline stages ── */
+  .pipeline-stage {
+    display: grid;
+    grid-template-columns: 18mm 1fr 40mm;
+    gap: 3mm;
+    align-items: start;
+    padding: 3.5mm 4mm;
+    background: var(--raised);
+    border: 1px solid var(--border);
+    border-radius: 2pt;
+    margin: 1.5mm 0;
+  }
+
+  .pipe-num {
+    font-family: var(--mono);
+    font-size: 8pt;
+    color: var(--muted);
+  }
+
+  .pipe-label {
+    font-family: var(--mono);
+    font-size: 9pt;
+    letter-spacing: 0.06em;
+    margin-bottom: 1mm;
+  }
+
+  .pipe-desc {
+    font-family: var(--body);
+    font-size: 8.5pt;
+    color: var(--muted);
+    line-height: 1.5;
+  }
+
+  .pipe-output {
+    font-family: var(--mono);
+    font-size: 7.5pt;
+    color: var(--sec);
+    text-align: right;
+    padding-top: 1mm;
+  }
+
+  .pipe-example {
+    font-family: var(--mono);
+    font-size: 7pt;
+    color: var(--cyan);
+    margin-top: 1mm;
+    font-style: italic;
+  }
+
+  /* ── LoRA tier ── */
+  .lora-tier {
+    display: grid;
+    grid-template-columns: 24mm 1fr;
+    border-radius: 3pt;
+    overflow: hidden;
+    margin: 1.5mm 0;
+    page-break-inside: avoid;
+  }
+
+  .lora-tier-badge {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: var(--mono);
+    font-size: 7.5pt;
+    letter-spacing: 0.06em;
+    text-align: center;
+    padding: 4mm 2mm;
+  }
+
+  .lora-tier-content {
+    padding: 4mm 5mm;
+  }
+
+  .lora-tier-name {
+    font-family: var(--mono);
+    font-size: 8.5pt;
+    margin-bottom: 1mm;
+  }
+
+  .lora-tier-meta {
+    font-family: var(--mono);
+    font-size: 7pt;
+    color: var(--muted);
+    margin-bottom: 2mm;
+  }
+
+  .lora-tier-desc {
+    font-family: var(--body);
+    font-size: 8.5pt;
+    color: var(--sec);
+    line-height: 1.55;
+  }
+
+  .t1 { background: rgba(200,146,42,0.06); border: 1px solid rgba(200,146,42,0.25); }
+  .t1 .lora-tier-badge { color: var(--amber); background: rgba(200,146,42,0.1); border-right: 1px solid rgba(200,146,42,0.2); }
+
+  .t2 { background: rgba(155,151,144,0.04); border: 1px solid rgba(155,151,144,0.2); }
+  .t2 .lora-tier-badge { color: var(--sec); background: rgba(155,151,144,0.08); border-right: 1px solid rgba(155,151,144,0.15); }
+
+  .t3 { background: rgba(76,175,125,0.04); border: 1px solid rgba(76,175,125,0.15); }
+  .t3 .lora-tier-badge { color: var(--green); background: rgba(76,175,125,0.08); border-right: 1px solid rgba(76,175,125,0.12); }
+
+  /* ── Agent card ── */
+  .agent-card {
+    background: var(--raised);
+    border: 1px solid var(--border);
+    border-radius: 3pt;
+    padding: 4mm 5mm;
+    page-break-inside: avoid;
+  }
+
+  .agent-name {
+    font-family: var(--display);
+    font-size: 14pt;
+    letter-spacing: 0.07em;
+    margin-bottom: 1mm;
+  }
+
+  .agent-model {
+    font-family: var(--mono);
+    font-size: 7pt;
+    color: var(--muted);
+    margin-bottom: 2mm;
+  }
+
+  .agent-loras {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1.5mm;
+    margin-bottom: 2mm;
+  }
+
+  .agent-lora-tag {
+    font-family: var(--mono);
+    font-size: 6.5pt;
+    padding: 1.5pt 5pt;
+    background: rgba(0,212,200,0.08);
+    border: 1px solid rgba(0,212,200,0.2);
+    border-radius: 2pt;
+    color: var(--cyan);
+  }
+
+  .agent-role {
+    font-family: var(--body);
+    font-size: 9pt;
+    color: var(--sec);
+    line-height: 1.55;
+  }
+
+  /* ── Script block ── */
+  .script-block {
+    background: var(--elev);
+    border: 1px solid var(--border);
+    border-radius: 3pt;
+    padding: 5mm 6mm;
+    margin: 4mm 0;
+    font-family: 'Courier New', monospace;
+    font-size: 9pt;
+    line-height: 1.7;
+    page-break-inside: avoid;
+  }
+
+  .script-slug {
+    font-family: var(--mono);
+    font-size: 8.5pt;
+    color: var(--amber);
+    letter-spacing: 0.06em;
+    margin-bottom: 3mm;
+  }
+
+  .script-action {
+    color: var(--sec);
+    margin-bottom: 2.5mm;
+    padding-left: 0;
+  }
+
+  .script-speaker {
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 8.5pt;
+    color: var(--pri);
+    letter-spacing: 0.08em;
+    margin: 2mm 0 0.5mm;
+    display: block;
+  }
+
+  .script-line {
+    display: block;
+    padding: 0 20mm;
+    color: var(--sec);
+    font-style: italic;
+    margin-bottom: 2mm;
+  }
+
+  /* ── Trace table ── */
+  .trace-table { margin: 3mm 0; }
+
+  .trace-row {
+    display: grid;
+    grid-template-columns: 6mm 28mm 1fr 5mm 40mm;
+    gap: 2.5mm;
+    align-items: baseline;
+    padding: 2mm 0;
+    border-bottom: 1px solid rgba(200,146,42,0.06);
+    font-family: var(--mono);
+    font-size: 7.5pt;
+  }
+
+  .trace-row:last-child { border-bottom: none; }
+
+  .ts-done    { color: var(--green); }
+  .ts-active  { color: var(--amber); }
+  .ts-pending { color: var(--muted); }
+
+  .trace-stage { color: var(--amber); }
+  .trace-input { color: var(--muted); }
+  .trace-output { color: var(--cyan); }
+  .trace-arrow { color: var(--muted); }
+
+  /* ── VRAM composition ── */
+  .vram-comp-row {
+    display: grid;
+    grid-template-columns: 1fr 30mm 14mm;
+    gap: 3mm;
+    align-items: center;
+    margin: 1.5mm 0;
+  }
+
+  .vram-comp-label {
+    font-family: var(--mono);
+    font-size: 7.5pt;
+    color: var(--sec);
+  }
+
+  .vram-comp-bar {
+    height: 5pt;
+    background: rgba(255,255,255,0.04);
+    border-radius: 2pt;
+    overflow: hidden;
+  }
+
+  .vram-comp-fill { height: 100%; border-radius: 2pt; }
+
+  .vram-comp-gb {
+    font-family: var(--mono);
+    font-size: 7.5pt;
+    color: var(--muted);
+    text-align: right;
+  }
+
+  /* ── Faction card ── */
+  .faction-card {
+    background: var(--raised);
+    border: 1px solid var(--border);
+    border-radius: 3pt;
+    padding: 4mm 5mm;
+    page-break-inside: avoid;
+  }
+
+  .faction-name {
+    font-family: var(--mono);
+    font-size: 8.5pt;
+    letter-spacing: 0.06em;
+    margin-bottom: 1mm;
+  }
+
+  .faction-status {
+    font-family: var(--mono);
+    font-size: 6.5pt;
+    letter-spacing: 0.08em;
+    margin-bottom: 2mm;
+  }
+
+  .faction-desc {
+    font-family: var(--body);
+    font-size: 8.5pt;
+    color: var(--muted);
+    line-height: 1.55;
+  }
+
+  /* ── Output summary ── */
+  .output-summary {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    background: var(--raised);
+    border: 1px solid var(--border);
+    border-radius: 3pt;
+    overflow: hidden;
+    margin: 4mm 0;
+  }
+
+  .output-stat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5mm;
+    padding: 5mm 3mm;
+    border-right: 1px solid var(--border);
+  }
+
+  .output-stat:last-child { border-right: none; }
+
+  .output-val {
+    font-family: var(--mono);
+    font-size: 13pt;
+    font-weight: 700;
+    line-height: 1;
+  }
+
+  .output-label {
+    font-family: var(--mono);
+    font-size: 5.5pt;
+    color: var(--muted);
+    letter-spacing: 0.08em;
+    text-align: center;
+  }
+
+  /* ── RAG result ── */
+  .rag-result-row {
+    display: grid;
+    grid-template-columns: 12mm 1fr 14mm;
+    gap: 3mm;
+    padding: 2mm 0;
+    border-bottom: 1px solid rgba(200,146,42,0.06);
+    align-items: start;
+  }
+
+  .rag-result-row:last-child { border-bottom: none; }
+
+  .rag-score {
+    font-family: var(--mono);
+    font-size: 8pt;
+    color: var(--green);
+  }
+
+  .rag-text {
+    font-family: var(--mono);
+    font-size: 8pt;
+    color: var(--sec);
+    font-style: italic;
+    line-height: 1.4;
+  }
+
+  .rag-src {
+    font-family: var(--mono);
+    font-size: 7.5pt;
+    color: var(--cyan);
+    text-align: right;
+  }
+
+  /* ── Print ── */
+  @media print {
+    .chapter   { page-break-before: always; }
+    .no-break  { page-break-inside: avoid; }
+    .cover     { page-break-after: always; }
+    .toc       { page-break-after: always; }
+  }
+
+  @page {
+    size: A4;
+    margin: 0;
+  }
+</style>
+</head>
+<body>
+<div class="page">
+
+<!-- ══════════════════════════════
+     COVER
+     ══════════════════════════════ -->
+<div class="cover">
+  <div class="cover-noise"></div>
+  <div class="cover-grid-lines"></div>
+  <div class="cover-accent-bar"></div>
+
+  <div class="cover-tag">AUTONOMOUS STUDIO · PRODUCTION SYSTEM DOCUMENTATION · MARCH 2026</div>
+
+  <div class="cover-title">FIELD<br /><span>GUIDE</span></div>
+  <div class="cover-subtitle">Tutorial &amp; Reference</div>
+  <div class="cover-rule"></div>
+
+  <p class="cover-desc">
+    A comprehensive walkthrough of the Autonomous Studio pipeline —
+    from lore ingestion and knowledge graph construction through LoRA training,
+    agent orchestration, and full episode generation.
+    Uses the <strong>Dark Matter Universe</strong> as the working example throughout.
+  </p>
+
+  <div class="cover-stats">
+    <div class="cover-stat">
+      <span class="cover-stat-val">8</span>
+      <span class="cover-stat-label">Chapters</span>
+    </div>
+    <div class="cover-stat">
+      <span class="cover-stat-val">6</span>
+      <span class="cover-stat-label">Agents</span>
+    </div>
+    <div class="cover-stat">
+      <span class="cover-stat-val">9</span>
+      <span class="cover-stat-label">LoRA Adapters</span>
+    </div>
+    <div class="cover-stat">
+      <span class="cover-stat-val">21,847</span>
+      <span class="cover-stat-label">Vectors</span>
+    </div>
+  </div>
+
+  <div class="cover-footer">
+    <span class="cover-footer-left">AUTONOMOUS STUDIO · LOCAL PRODUCTION SYSTEM</span>
+    <span class="cover-footer-right">4-NODE GPU CLUSTER · RTX A4000 / RTX 5090 / RTX 3060 / M1 MAX</span>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     TABLE OF CONTENTS
+     ══════════════════════════════ -->
+<div class="toc">
+  <div class="toc-title">CONTENTS</div>
+
+  <div class="toc-entry"><span class="toc-num">01</span><span class="toc-label">Mission Control — Welcome &amp; System Overview</span><span class="toc-dots"></span><span class="toc-page">3</span></div>
+  <div class="toc-entry"><span class="toc-num">02</span><span class="toc-label">The Dark Matter Universe — World &amp; Character Reference</span><span class="toc-dots"></span><span class="toc-page">4</span></div>
+  <div class="toc-entry"><span class="toc-num">03</span><span class="toc-label">Full Production Pipeline — End-to-End Workflow</span><span class="toc-dots"></span><span class="toc-page">6</span></div>
+  <div class="toc-entry"><span class="toc-num">04</span><span class="toc-label">Your 4-Node GPU Cluster — Hardware Architecture</span><span class="toc-dots"></span><span class="toc-page">8</span></div>
+  <div class="toc-entry"><span class="toc-num">05</span><span class="toc-label">The Memory Layer — Qdrant + Neo4j</span><span class="toc-dots"></span><span class="toc-page">10</span></div>
+  <div class="toc-entry"><span class="toc-num">06</span><span class="toc-label">Adapter Vault — LoRA Architecture &amp; Composition</span><span class="toc-dots"></span><span class="toc-page">12</span></div>
+  <div class="toc-entry"><span class="toc-num">07</span><span class="toc-label">The 6-Agent Pipeline — Orchestration Reference</span><span class="toc-dots"></span><span class="toc-page">14</span></div>
+  <div class="toc-entry"><span class="toc-num">08</span><span class="toc-label">Running a Generation Job — Full Walkthrough</span><span class="toc-dots"></span><span class="toc-page">16</span></div>
+</div>
+
+<!-- ══════════════════════════════
+     CH.1 — WELCOME
+     ══════════════════════════════ -->
+<div class="chapter">
+  <div class="chapter-rule-top">
+    <div class="chapter-num-big">01</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">Welcome Briefing</div>
+      <div class="chapter-title">Mission Control</div>
+    </div>
+  </div>
+  <div class="chapter-rule-bottom"></div>
+
+  <p class="lead">
+    You are operating an autonomous AI production system — a virtual studio capable of generating
+    complete TV and film content at series scale, with full continuity, consistent character voices,
+    and cinematic visual output.
+  </p>
+
+  <p>
+    This dashboard is your mission control. Every panel reflects a live system component.
+    Each section controls a real part of the pipeline — from the 4-node GPU cluster
+    to the 6-agent LangGraph orchestration layer to the multimodal visual output pipeline.
+  </p>
+
+  <h3>System Capabilities</h3>
+
+  <div class="panel panel-amber">
+    <div class="panel-title">What the System Does</div>
+    <table style="width:100%; border-collapse: collapse; font-family: var(--mono); font-size: 8pt;">
+      <tr style="border-bottom:1px solid var(--border)">
+        <td style="padding:2mm 3mm;color:var(--amber);min-width:36mm;">Vector Memory</td>
+        <td style="padding:2mm 3mm;color:var(--sec);">Semantic retrieval across 21,847 embedded lore chunks via Qdrant</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border)">
+        <td style="padding:2mm 3mm;color:var(--amber);">Knowledge Graph</td>
+        <td style="padding:2mm 3mm;color:var(--sec);">Neo4j continuity constraint checking — 1,203 nodes, 3,847 relationships</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border)">
+        <td style="padding:2mm 3mm;color:var(--amber);">LoRA Adapters</td>
+        <td style="padding:2mm 3mm;color:var(--sec);">9 fine-tuned adapters spanning universe, series, and character voice</td>
+      </tr>
+      <tr style="border-bottom:1px solid var(--border)">
+        <td style="padding:2mm 3mm;color:var(--amber);">6-Agent Pipeline</td>
+        <td style="padding:2mm 3mm;color:var(--sec);">Showrunner → World Builder → Head Writer → Scene Writer → Story Editor → Researcher</td>
+      </tr>
+      <tr>
+        <td style="padding:2mm 3mm;color:var(--amber);">Multimodal Output</td>
+        <td style="padding:2mm 3mm;color:var(--sec);">Script, character images (FLUX LoRA), and motion video (WAN2.2) from a single brief</td>
+      </tr>
+    </table>
+  </div>
+
+  <h3>The 5-Stage Workflow</h3>
+
+  <div style="display:flex; align-items:center; gap:0; background:var(--raised); border:1px solid var(--border); border-radius:3pt; padding:4mm 5mm; overflow:hidden; margin:3mm 0;">
+    <div style="flex:1; text-align:center;">
+      <div style="font-family:var(--mono);font-size:16pt;color:rgba(200,146,42,0.2);line-height:1;">1</div>
+      <div style="font-family:var(--mono);font-size:6.5pt;color:var(--amber);letter-spacing:0.08em;">INGEST LORE</div>
+    </div>
+    <div style="color:rgba(200,146,42,0.3);font-size:8pt;">→</div>
+    <div style="flex:1; text-align:center;">
+      <div style="font-family:var(--mono);font-size:16pt;color:rgba(200,146,42,0.2);line-height:1;">2</div>
+      <div style="font-family:var(--mono);font-size:6.5pt;color:var(--amber);letter-spacing:0.08em;">EMBED + GRAPH</div>
+    </div>
+    <div style="color:rgba(200,146,42,0.3);font-size:8pt;">→</div>
+    <div style="flex:1; text-align:center;">
+      <div style="font-family:var(--mono);font-size:16pt;color:rgba(200,146,42,0.2);line-height:1;">3</div>
+      <div style="font-family:var(--mono);font-size:6.5pt;color:var(--amber);letter-spacing:0.08em;">TRAIN LORAS</div>
+    </div>
+    <div style="color:rgba(200,146,42,0.3);font-size:8pt;">→</div>
+    <div style="flex:1; text-align:center;">
+      <div style="font-family:var(--mono);font-size:16pt;color:rgba(200,146,42,0.2);line-height:1;">4</div>
+      <div style="font-family:var(--mono);font-size:6.5pt;color:var(--amber);letter-spacing:0.08em;">CONFIGURE AGENTS</div>
+    </div>
+    <div style="color:rgba(200,146,42,0.3);font-size:8pt;">→</div>
+    <div style="flex:1; text-align:center;">
+      <div style="font-family:var(--mono);font-size:16pt;color:rgba(200,146,42,0.2);line-height:1;">5</div>
+      <div style="font-family:var(--mono);font-size:6.5pt;color:var(--amber);letter-spacing:0.08em;">GENERATE</div>
+    </div>
+  </div>
+
+  <div class="callout callout-tip">
+    <span class="callout-icon">★</span>
+    <div class="callout-body">
+      This guide uses the <strong>Dark Matter Universe</strong> — a fully loaded example world —
+      throughout. All characters, factions, and locations referenced here are real entities in the knowledge graph,
+      accessible in the Lore Library section of the dashboard.
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     CH.2 — UNIVERSE
+     ══════════════════════════════ -->
+<div class="chapter">
+  <div class="chapter-rule-top">
+    <div class="chapter-num-big">02</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">World Reference</div>
+      <div class="chapter-title">The Dark Matter Universe</div>
+    </div>
+  </div>
+  <div class="chapter-rule-bottom"></div>
+
+  <p class="lead">
+    The Dark Matter Universe is a multi-series science fiction world modelled after productions
+    like <em>The Expanse</em> and <em>Andor</em> — morally complex, politically driven,
+    with a rich institutional history. It is the working example universe for all tutorials.
+  </p>
+
+  <div class="stat-strip">
+    <div class="stat-cell"><span class="stat-val">342</span><span class="stat-label">CHARACTERS</span></div>
+    <div class="stat-cell"><span class="stat-val" style="color:var(--coral)">48</span><span class="stat-label">FACTIONS</span></div>
+    <div class="stat-cell"><span class="stat-val cyan">127</span><span class="stat-label">LOCATIONS</span></div>
+    <div class="stat-cell"><span class="stat-val">412</span><span class="stat-label">EVENTS</span></div>
+    <div class="stat-cell"><span class="stat-val green">2</span><span class="stat-label">ACTIVE SERIES</span></div>
+    <div class="stat-cell"><span class="stat-val cyan">21,847</span><span class="stat-label">VECTORS</span></div>
+    <div class="stat-cell"><span class="stat-val cyan">1,203</span><span class="stat-label">GRAPH NODES</span></div>
+  </div>
+
+  <h3>Character Dossiers — Main Cast</h3>
+
+  <div class="dossier" style="border-left:3pt solid #c8922a;">
+    <div class="dossier-header">
+      <div>
+        <div class="dossier-name amber">KAEL THERON</div>
+        <div class="dossier-role">FIELD COMMANDER → DEFECTOR · IRON CONCLAVE (FORMER)</div>
+      </div>
+      <div class="dossier-meta">
+        <div class="meta-row"><span class="meta-k">STATUS</span><span class="meta-v alive">ALIVE</span></div>
+        <div class="meta-row"><span class="meta-k">FIRST SEEN</span><span class="meta-v">S01E01</span></div>
+        <div class="meta-row"><span class="meta-k">VOICE LORA</span><span class="meta-v lora">kael_theron_voice (r=16)</span></div>
+      </div>
+    </div>
+    <p class="dossier-bio">
+      A former enforcer for the Iron Conclave who defected after discovering the Vault-7 conspiracy.
+      Tactically brilliant but morally compromised by his past service. Speaks in clipped, precise sentences.
+      Rarely uses contractions. Favours understatement in moments of high tension.
+    </p>
+    <div class="dossier-traits">
+      <span class="trait-tag">Tactically brilliant</span>
+      <span class="trait-tag">Morally compromised</span>
+      <span class="trait-tag">Clipped speech</span>
+      <span class="trait-tag">Rarely uses contractions</span>
+      <span class="trait-tag">Understatement under pressure</span>
+    </div>
+    <div class="dossier-quote">"Six months. You knew. The whole time."</div>
+  </div>
+
+  <div class="dossier" style="border-left:3pt solid #00d4c8;">
+    <div class="dossier-header">
+      <div>
+        <div class="dossier-name cyan">SERA VANCE</div>
+        <div class="dossier-role">INTELLIGENCE OPERATIVE · INDEPENDENT</div>
+      </div>
+      <div class="dossier-meta">
+        <div class="meta-row"><span class="meta-k">STATUS</span><span class="meta-v alive">ALIVE</span></div>
+        <div class="meta-row"><span class="meta-k">FIRST SEEN</span><span class="meta-v">S01E01</span></div>
+        <div class="meta-row"><span class="meta-k">VOICE LORA</span><span class="meta-v lora">sera_vance_voice (r=16)</span></div>
+      </div>
+    </div>
+    <p class="dossier-bio">
+      Operative with no permanent allegiance. Allies with Kael out of mutual necessity.
+      Their tension is unspoken and persistent. She plays the long game — always has an exit prepared.
+      Ruthlessly pragmatic, dry wit, distrusts ideology.
+    </p>
+    <div class="dossier-traits">
+      <span class="trait-tag">Ruthlessly pragmatic</span>
+      <span class="trait-tag">Dry wit</span>
+      <span class="trait-tag">Long-game thinker</span>
+      <span class="trait-tag">Distrusts ideology</span>
+    </div>
+    <div class="dossier-quote">"I didn't save you. I preserved a useful asset. There's a difference."</div>
+  </div>
+
+  <div class="grid-2">
+    <div class="dossier" style="border-left:3pt solid #e06c5a;">
+      <div class="dossier-name coral" style="font-size:14pt;">DIRECTOR MAREN</div>
+      <div class="dossier-role" style="margin-bottom:2mm;">HEAD OF THE IRON CONCLAVE · ANTAGONIST</div>
+      <p class="dossier-bio" style="font-size:8.5pt;">
+        Kael's former superior and mentor. Authorised the Vault-7 programme from a cold calculation about survival.
+        Never raises her voice. Genuinely sorrowful about Kael's defection.
+      </p>
+      <div class="dossier-quote" style="border-color:#e06c5a;font-size:8pt;">"I gave you every opportunity to understand. You chose sentiment."</div>
+    </div>
+    <div class="dossier" style="border-left:3pt solid #9b9790;">
+      <div class="dossier-name" style="font-size:14pt;color:var(--sec);">THE ARCHIVIST</div>
+      <div class="dossier-role" style="margin-bottom:2mm;">INFORMATION BROKER · NEUTRAL</div>
+      <p class="dossier-bio" style="font-size:8.5pt;">
+        Entity of unknown origin. Provides intelligence to Kael on a strictly transactional basis.
+        Speaks in precise riddles. Never lies; rarely tells the full truth.
+      </p>
+      <div class="dossier-quote" style="border-color:#9b9790;font-size:8pt;">"The vault was sealed three centuries before your organisation existed. Ask yourself who built the lock."</div>
+    </div>
+  </div>
+
+  <h3>Major Factions</h3>
+
+  <div class="grid-3">
+    <div class="faction-card" style="border-top:2pt solid #e06c5a;">
+      <div class="faction-name">IRON CONCLAVE</div>
+      <div class="faction-status" style="color:#e06c5a;">ACTIVE</div>
+      <p class="faction-desc">The dominant political-military body. Controls dark-field technology that underpins interstellar transit. Enforces "civilisational stability."</p>
+    </div>
+    <div class="faction-card" style="border-top:2pt solid #00d4c8;">
+      <div class="faction-name">THE DRIFT COLLECTIVE</div>
+      <div class="faction-status" style="color:#00d4c8;">ACTIVE</div>
+      <p class="faction-desc">Loose federation of outer-rim stations that rejected Conclave governance. Resourceful and decentralised. Kael's primary allies post-defection.</p>
+    </div>
+    <div class="faction-card" style="border-top:2pt solid #c8922a;">
+      <div class="faction-name">THE VAULT PROGRAMME</div>
+      <div class="faction-status" style="color:#c8922a;">CLASSIFIED</div>
+      <p class="faction-desc">The conspiracy at the centre of Series 01. A long-running Conclave project to weaponise dark-field technology for population management.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     CH.3 — PIPELINE
+     ══════════════════════════════ -->
+<div class="chapter">
+  <div class="chapter-rule-top">
+    <div class="chapter-num-big">03</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">End-to-End Workflow</div>
+      <div class="chapter-title">Full Production Pipeline</div>
+    </div>
+  </div>
+  <div class="chapter-rule-bottom"></div>
+
+  <p>
+    Every episode passes through six stages. Each stage feeds the next —
+    raw lore becomes structured memory, memory enables accurate generation,
+    generation produces both text and visuals in parallel.
+  </p>
+
+  <div class="pipeline-stage" style="border-left:3pt solid #00d4c8;">
+    <div>
+      <div class="pipe-num">01</div>
+    </div>
+    <div>
+      <div class="pipe-label amber">LORE INGESTION</div>
+      <div class="pipe-desc">Drop raw source material — PDFs, scripts, markdown notes — into the Lore Library ingestion pipeline. The system parses, chunks, and classifies entities automatically.</div>
+      <div class="pipe-example">Example: darkmatter_S02_bible.pdf → 2,847 chunks · 14 entity types classified</div>
+    </div>
+    <div class="pipe-output">→ Text chunks<br/>Entity candidates</div>
+  </div>
+
+  <div class="pipeline-stage" style="border-left:3pt solid #00d4c8;">
+    <div><div class="pipe-num">02</div></div>
+    <div>
+      <div class="pipe-label amber">EMBED + INDEX</div>
+      <div class="pipe-desc">nomic-embed-text-v1.5 encodes every chunk into 768-dimensional vectors. Vectors committed to Qdrant. Relationships extracted and written to Neo4j.</div>
+      <div class="pipe-example">21,847 total vectors · 8 collections · Cosine similarity · HNSW m=16</div>
+    </div>
+    <div class="pipe-output">→ Qdrant collections<br/>Neo4j graph</div>
+  </div>
+
+  <div class="pipeline-stage" style="border-left:3pt solid #c8922a;">
+    <div><div class="pipe-num">03</div></div>
+    <div>
+      <div class="pipe-label amber">LORA TRAINING</div>
+      <div class="pipe-desc">Unsloth QLoRA trains universe, series, and character voice adapters on Qwen2.5-14B-Instruct. Training data auto-generated from lore entities.</div>
+      <div class="pipe-example">kael_theron_voice: 1,402 pairs · r=16 · 47 min · final loss: 0.724</div>
+    </div>
+    <div class="pipe-output">→ Adapter files<br/>(.safetensors)</div>
+  </div>
+
+  <div class="pipeline-stage" style="border-left:3pt solid #c8922a;">
+    <div><div class="pipe-num">04</div></div>
+    <div>
+      <div class="pipe-label amber">ADAPTER LOADING</div>
+      <div class="pipe-desc">vLLM multi-LoRA loads the trained adapters. LiteLLM routes agent requests to the correct model+adapter combination via alias resolution.</div>
+      <div class="pipe-example">7 adapters loaded · universe_voice merged · ranks r=16 to r=64</div>
+    </div>
+    <div class="pipe-output">→ vLLM ready<br/>LiteLLM routing</div>
+  </div>
+
+  <div class="pipeline-stage" style="border-left:3pt solid #c8922a;">
+    <div><div class="pipe-num">05</div></div>
+    <div>
+      <div class="pipe-label amber">AGENT PIPELINE</div>
+      <div class="pipe-desc">LangGraph orchestrates 6 specialised agents. Each agent RAG-queries Qdrant before generating, then Neo4j validates the output for continuity.</div>
+      <div class="pipe-example">Showrunner → Head Writer → Scene Writer × 12 → Story Editor</div>
+    </div>
+    <div class="pipe-output">→ Script<br/>Beat sheet</div>
+  </div>
+
+  <div class="pipeline-stage" style="border-left:3pt solid #4caf7d;">
+    <div><div class="pipe-num">06</div></div>
+    <div>
+      <div class="pipe-label amber">VISUAL PIPELINE</div>
+      <div class="pipe-desc">ComfyUI renders character images and scene illustrations using FLUX LoRAs. WAN2.2 generates motion video clips for key scenes.</div>
+      <div class="pipe-example">darkmatter_style (0.55) + kael_identity (0.85) · 28 steps · 1024×576</div>
+    </div>
+    <div class="pipe-output">→ Images<br/>Video frames</div>
+  </div>
+
+  <h3>Episode Trace — Dark Matter S02E04</h3>
+
+  <div class="panel">
+    <div class="panel-title">Generation Pipeline — Episode Trace</div>
+    <div class="trace-table">
+      <div class="trace-row">
+        <span class="ts-done">✓</span>
+        <span class="trace-stage">INGESTION</span>
+        <span class="trace-input">darkmatter_S02_bible.pdf</span>
+        <span class="trace-arrow">→</span>
+        <span class="trace-output">2,847 chunks → Qdrant</span>
+      </div>
+      <div class="trace-row">
+        <span class="ts-done">✓</span>
+        <span class="trace-stage">EMBEDDING</span>
+        <span class="trace-input">2,847 chunks · nomic-embed-text</span>
+        <span class="trace-arrow">→</span>
+        <span class="trace-output">+2,847 vectors committed</span>
+      </div>
+      <div class="trace-row">
+        <span class="ts-done">✓</span>
+        <span class="trace-stage">GRAPH</span>
+        <span class="trace-input">Entity extraction pass</span>
+        <span class="trace-arrow">→</span>
+        <span class="trace-output">47 new relationships → Neo4j</span>
+      </div>
+      <div class="trace-row">
+        <span class="ts-done">✓</span>
+        <span class="trace-stage">TRAINING</span>
+        <span class="trace-input">kael_theron_voice (1,402 pairs)</span>
+        <span class="trace-arrow">→</span>
+        <span class="trace-output">Adapter ready · loss 0.724</span>
+      </div>
+      <div class="trace-row">
+        <span class="ts-done">✓</span>
+        <span class="trace-stage">SHOWRUNNER</span>
+        <span class="trace-input">Brief: S02E04 "The Vault Antechamber"</span>
+        <span class="trace-arrow">→</span>
+        <span class="trace-output">12 scene outlines</span>
+      </div>
+      <div class="trace-row">
+        <span class="ts-active">◌</span>
+        <span class="trace-stage">SCENE WRITER</span>
+        <span class="trace-input">Beat 12: Kael confronts Maren</span>
+        <span class="trace-arrow">→</span>
+        <span class="trace-output">2,847 tokens generated</span>
+      </div>
+      <div class="trace-row">
+        <span class="ts-pending">○</span>
+        <span class="trace-stage">VISUAL</span>
+        <span class="trace-input">Scene 12 + LoRA stack</span>
+        <span class="trace-arrow">→</span>
+        <span class="trace-output">6 frames queued · ComfyUI</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     CH.4 — CLUSTER
+     ══════════════════════════════ -->
+<div class="chapter">
+  <div class="chapter-rule-top">
+    <div class="chapter-num-big">04</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">Hardware Architecture</div>
+      <div class="chapter-title">Your 4-Node GPU Cluster</div>
+    </div>
+  </div>
+  <div class="chapter-rule-bottom"></div>
+
+  <p>
+    The cluster is a heterogeneous network of four machines, each specialised for a different role.
+    LiteLLM on the hub acts as a unified proxy — all agents address LiteLLM, which routes
+    to the correct node and model via alias resolution.
+  </p>
+
+  <div class="grid-2">
+    <div class="node-card" style="border-left:3pt solid #00d4c8;">
+      <div class="node-card-name" style="color:#00d4c8;">● UBUNTU HUB</div>
+      <div class="node-card-gpu">RTX A4000 · 16GB VRAM · 192.168.1.10</div>
+      <div class="vram-bar-wrap">
+        <span class="vram-bar-label">VRAM</span>
+        <div class="vram-bar-outer"><div class="vram-bar-inner" style="width:70%;background:#00d4c8;"></div></div>
+        <span class="vram-bar-pct">70%</span>
+      </div>
+      <div class="node-services">
+        <span class="service-tag">Qdrant :6333</span>
+        <span class="service-tag">Neo4j :7474</span>
+        <span class="service-tag">LiteLLM :4000</span>
+        <span class="service-tag">n8n :5678</span>
+      </div>
+      <p class="node-why">Always-on infrastructure. Low VRAM, high availability. Runs the memory layer and all routing.</p>
+    </div>
+
+    <div class="node-card" style="border-left:3pt solid #c8922a;">
+      <div class="node-card-name" style="color:#c8922a;">◌ WIN WORKSTATION</div>
+      <div class="node-card-gpu">RTX 5090 · 32GB VRAM · 192.168.1.42</div>
+      <div class="vram-bar-wrap">
+        <span class="vram-bar-label">VRAM</span>
+        <div class="vram-bar-outer"><div class="vram-bar-inner" style="width:78%;background:#c8922a;"></div></div>
+        <span class="vram-bar-pct">78%</span>
+      </div>
+      <div class="node-services">
+        <span class="service-tag">vLLM :8000</span>
+        <span class="service-tag">ComfyUI :8188</span>
+        <span class="service-tag">Unsloth :7860</span>
+      </div>
+      <p class="node-why">32GB VRAM fits the full 14B model Q4 + 3 LoRA adapters + KV cache simultaneously. The production workhorse.</p>
+    </div>
+
+    <div class="node-card" style="border-left:3pt solid #4caf7d;">
+      <div class="node-card-name" style="color:#4caf7d;">● LAPTOP</div>
+      <div class="node-card-gpu">RTX 3060 · 12GB VRAM · 192.168.1.55</div>
+      <div class="vram-bar-wrap">
+        <span class="vram-bar-label">VRAM</span>
+        <div class="vram-bar-outer"><div class="vram-bar-inner" style="width:35%;background:#4caf7d;"></div></div>
+        <span class="vram-bar-pct">35%</span>
+      </div>
+      <div class="node-services">
+        <span class="service-tag">Ollama :11434</span>
+        <span class="service-tag">vLLM (overflow)</span>
+      </div>
+      <p class="node-why">Handles lighter 7B tasks via Ollama. Overflow capacity when the 5090 is training.</p>
+    </div>
+
+    <div class="node-card" style="border-left:3pt solid #9b9790;">
+      <div class="node-card-name" style="color:#9b9790;">● MACBOOK PRO</div>
+      <div class="node-card-gpu">M1 Max · 32GB Unified · 192.168.1.71</div>
+      <div class="vram-bar-wrap">
+        <span class="vram-bar-label">VRAM</span>
+        <div class="vram-bar-outer"><div class="vram-bar-inner" style="width:26%;background:#9b9790;"></div></div>
+        <span class="vram-bar-pct">26%</span>
+      </div>
+      <div class="node-services">
+        <span class="service-tag">LangGraph :3001</span>
+        <span class="service-tag">MLX</span>
+        <span class="service-tag">n8n</span>
+      </div>
+      <p class="node-why">LangGraph agent development and rapid iteration. MLX runs small models for testing.</p>
+    </div>
+  </div>
+
+  <div class="callout callout-key">
+    <span class="callout-icon">◈</span>
+    <div class="callout-body">
+      <strong>LiteLLM alias convention:</strong> Agents always reference models by alias
+      (<code>qwen2.5-14b-vllm</code>, not raw endpoints). This means you can migrate a model
+      to a different node without touching any agent configuration — only the LiteLLM alias mapping changes.
+    </div>
+  </div>
+
+  <h3>Service Registry</h3>
+
+  <div class="panel">
+    <div class="panel-title">All Running Services</div>
+    <table style="width:100%;border-collapse:collapse;font-family:var(--mono);font-size:7.5pt;">
+      <thead>
+        <tr style="border-bottom:1px solid var(--border)">
+          <th style="padding:2mm 3mm;color:var(--muted);text-align:left;letter-spacing:0.1em;font-weight:normal;">SERVICE</th>
+          <th style="padding:2mm 3mm;color:var(--muted);text-align:left;letter-spacing:0.1em;font-weight:normal;">NODE</th>
+          <th style="padding:2mm 3mm;color:var(--muted);text-align:left;letter-spacing:0.1em;font-weight:normal;">PORT</th>
+          <th style="padding:2mm 3mm;color:var(--muted);text-align:left;letter-spacing:0.1em;font-weight:normal;">VERSION</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid rgba(200,146,42,0.06)"><td style="padding:2mm 3mm;color:var(--amber)">LiteLLM Proxy</td><td style="padding:2mm 3mm;color:var(--sec)">Ubuntu Hub</td><td style="padding:2mm 3mm;color:var(--cyan)">4000</td><td style="padding:2mm 3mm;color:var(--muted)">v1.42.1</td></tr>
+        <tr style="border-bottom:1px solid rgba(200,146,42,0.06)"><td style="padding:2mm 3mm;color:var(--amber)">Qdrant</td><td style="padding:2mm 3mm;color:var(--sec)">Ubuntu Hub</td><td style="padding:2mm 3mm;color:var(--cyan)">6333</td><td style="padding:2mm 3mm;color:var(--muted)">v1.13.2</td></tr>
+        <tr style="border-bottom:1px solid rgba(200,146,42,0.06)"><td style="padding:2mm 3mm;color:var(--amber)">Neo4j Community</td><td style="padding:2mm 3mm;color:var(--sec)">Ubuntu Hub</td><td style="padding:2mm 3mm;color:var(--cyan)">7474</td><td style="padding:2mm 3mm;color:var(--muted)">v5.25.0</td></tr>
+        <tr style="border-bottom:1px solid rgba(200,146,42,0.06)"><td style="padding:2mm 3mm;color:var(--amber)">n8n</td><td style="padding:2mm 3mm;color:var(--sec)">Ubuntu Hub</td><td style="padding:2mm 3mm;color:var(--cyan)">5678</td><td style="padding:2mm 3mm;color:var(--muted)">v1.68.0</td></tr>
+        <tr style="border-bottom:1px solid rgba(200,146,42,0.06)"><td style="padding:2mm 3mm;color:var(--amber)">vLLM (primary)</td><td style="padding:2mm 3mm;color:var(--sec)">Win Workstation</td><td style="padding:2mm 3mm;color:var(--cyan)">8000</td><td style="padding:2mm 3mm;color:var(--muted)">v0.8.1</td></tr>
+        <tr style="border-bottom:1px solid rgba(200,146,42,0.06)"><td style="padding:2mm 3mm;color:var(--amber)">ComfyUI</td><td style="padding:2mm 3mm;color:var(--sec)">Win Workstation</td><td style="padding:2mm 3mm;color:var(--cyan)">8188</td><td style="padding:2mm 3mm;color:var(--muted)">latest</td></tr>
+        <tr style="border-bottom:1px solid rgba(200,146,42,0.06)"><td style="padding:2mm 3mm;color:var(--amber)">Unsloth Studio</td><td style="padding:2mm 3mm;color:var(--sec)">Win Workstation</td><td style="padding:2mm 3mm;color:var(--cyan)">7860</td><td style="padding:2mm 3mm;color:var(--muted)">v2026.03</td></tr>
+        <tr><td style="padding:2mm 3mm;color:var(--amber)">Ollama</td><td style="padding:2mm 3mm;color:var(--sec)">Laptop</td><td style="padding:2mm 3mm;color:var(--cyan)">11434</td><td style="padding:2mm 3mm;color:var(--muted)">v0.6.0</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     CH.5 — MEMORY LAYER
+     ══════════════════════════════ -->
+<div class="chapter">
+  <div class="chapter-rule-top">
+    <div class="chapter-num-big">05</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">Qdrant + Neo4j</div>
+      <div class="chapter-title">The Memory Layer</div>
+    </div>
+  </div>
+  <div class="chapter-rule-bottom"></div>
+
+  <p>
+    The memory layer has two complementary systems working in tandem.
+    <span class="cyan">Qdrant</span> handles semantic similarity searches.
+    <span class="amber">Neo4j</span> handles structural relationship traversal and continuity constraint checking.
+    Agents use both on every scene generation.
+  </p>
+
+  <h3>Qdrant — Vector Collections</h3>
+
+  <div class="panel panel-cyan">
+    <div class="panel-title">QDRANT · 192.168.1.10:6333 · 21,847 TOTAL VECTORS</div>
+    <table style="width:100%;border-collapse:collapse;font-family:var(--mono);font-size:8pt;">
+      <thead>
+        <tr style="border-bottom:1px solid var(--border)">
+          <th style="padding:2mm 3mm;color:var(--muted);text-align:left;font-weight:normal;letter-spacing:0.08em;">COLLECTION</th>
+          <th style="padding:2mm 3mm;color:var(--muted);text-align:right;font-weight:normal;letter-spacing:0.08em;">VECTORS</th>
+          <th style="padding:2mm 3mm;color:var(--muted);text-align:left;font-weight:normal;letter-spacing:0.08em;">PURPOSE</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid rgba(0,212,200,0.06)"><td style="padding:2mm 3mm;color:var(--cyan)">universe_foundation</td><td style="padding:2mm 3mm;color:var(--sec);text-align:right">8,412</td><td style="padding:2mm 3mm;color:var(--muted)">Core world rules, physics, timeline</td></tr>
+        <tr style="border-bottom:1px solid rgba(0,212,200,0.06)"><td style="padding:2mm 3mm;color:var(--cyan)">darkmatter_episodic</td><td style="padding:2mm 3mm;color:var(--sec);text-align:right">4,231</td><td style="padding:2mm 3mm;color:var(--muted)">Scene-level episodic memory</td></tr>
+        <tr style="border-bottom:1px solid rgba(0,212,200,0.06)"><td style="padding:2mm 3mm;color:var(--cyan)">darkmatter_lore</td><td style="padding:2mm 3mm;color:var(--sec);text-align:right">2,847</td><td style="padding:2mm 3mm;color:var(--muted)">Series-specific lore and context</td></tr>
+        <tr style="border-bottom:1px solid rgba(0,212,200,0.06)"><td style="padding:2mm 3mm;color:var(--cyan)">darkmatter_dialogue</td><td style="padding:2mm 3mm;color:var(--sec);text-align:right">1,923</td><td style="padding:2mm 3mm;color:var(--muted)">Canonical speech pattern examples</td></tr>
+        <tr style="border-bottom:1px solid rgba(0,212,200,0.06)"><td style="padding:2mm 3mm;color:var(--cyan)">conclave_wars_s01</td><td style="padding:2mm 3mm;color:var(--sec);text-align:right">1,204</td><td style="padding:2mm 3mm;color:var(--muted)">Series 2 lore (indexing)</td></tr>
+        <tr><td style="padding:2mm 3mm;color:var(--cyan)">characters_voice</td><td style="padding:2mm 3mm;color:var(--sec);text-align:right">892</td><td style="padding:2mm 3mm;color:var(--muted)">Character voice profiles</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3>Example RAG Query</h3>
+
+  <div class="panel">
+    <div class="panel-title">QDRANT SIMILARITY SEARCH · darkmatter_lore + universe_foundation</div>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--muted);margin-bottom:3mm;">
+      Query: <span class="cyan">"What does Kael know about the dark-field inhibitor?"</span>
+    </p>
+    <div class="rag-result-row">
+      <span class="rag-score">0.934</span>
+      <span class="rag-text">"Kael had seen the inhibitor specifications only once, in the Conclave's restricted archive..."</span>
+      <span class="rag-src">[S01E03]</span>
+    </div>
+    <div class="rag-result-row">
+      <span class="rag-score">0.901</span>
+      <span class="rag-text">"The inhibitor was never meant for civilian application—"</span>
+      <span class="rag-src">[S01E05]</span>
+    </div>
+    <div class="rag-result-row">
+      <span class="rag-score">0.878</span>
+      <span class="rag-text">"Dark-field inhibition requires neural isolation at the cortical binding layer..."</span>
+      <span class="rag-src">[universe]</span>
+    </div>
+    <p style="font-family:var(--mono);font-size:7pt;color:var(--muted);margin-top:3mm;border-top:1px solid var(--border);padding-top:2mm;">Latency: 12ms · Top-k: 7 · Distance: Cosine</p>
+  </div>
+
+  <h3>Neo4j — Knowledge Graph</h3>
+
+  <div class="grid-2" style="margin:3mm 0;">
+    <div class="panel" style="border-top:2pt solid var(--amber);">
+      <div class="panel-title">GRAPH STATISTICS</div>
+      <table style="width:100%;border-collapse:collapse;font-family:var(--mono);font-size:8pt;">
+        <tr><td style="padding:1.5mm 0;color:var(--muted)">Total Nodes</td><td style="padding:1.5mm 0;color:var(--amber);text-align:right">1,203</td></tr>
+        <tr><td style="padding:1.5mm 0;color:var(--muted)">Relationships</td><td style="padding:1.5mm 0;color:var(--amber);text-align:right">3,847</td></tr>
+        <tr><td style="padding:1.5mm 0;color:var(--muted)">Characters</td><td style="padding:1.5mm 0;color:var(--sec);text-align:right">342</td></tr>
+        <tr><td style="padding:1.5mm 0;color:var(--muted)">Factions</td><td style="padding:1.5mm 0;color:var(--sec);text-align:right">48</td></tr>
+        <tr><td style="padding:1.5mm 0;color:var(--muted)">Locations</td><td style="padding:1.5mm 0;color:var(--sec);text-align:right">127</td></tr>
+        <tr><td style="padding:1.5mm 0;color:var(--muted)">Events</td><td style="padding:1.5mm 0;color:var(--sec);text-align:right">412</td></tr>
+      </table>
+    </div>
+    <div class="panel" style="border-top:2pt solid var(--coral);">
+      <div class="panel-title">RECENT CONSTRAINT CHECKS</div>
+      <div style="font-family:var(--mono);font-size:7.5pt;display:flex;flex-direction:column;gap:2mm;">
+        <div style="padding:2mm;background:rgba(76,175,125,0.06);border:1px solid rgba(76,175,125,0.2);border-radius:2pt;color:var(--green);">
+          ✓ PASS · Kael Theron · status: ALIVE · S02E06
+        </div>
+        <div style="padding:2mm;background:rgba(76,175,125,0.06);border:1px solid rgba(76,175,125,0.2);border-radius:2pt;color:var(--green);">
+          ✓ PASS · Location 'Vault-7' · established S01E01
+        </div>
+        <div style="padding:2mm;background:rgba(224,108,90,0.06);border:1px solid rgba(224,108,90,0.2);border-radius:2pt;color:var(--coral);">
+          ✗ FAIL · "Kel Aran" referenced ALIVE — status: DEAD (S01E02)
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-info">
+    <span class="callout-icon">◈</span>
+    <div class="callout-body">
+      The Lore Layer hybrid query tester lets you run both a Qdrant semantic search and a Neo4j
+      Cypher query simultaneously, with results merged and ranked. Use this to verify that a piece
+      of lore is both semantically retrievable and structurally consistent before writing new content.
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     CH.6 — ADAPTERS
+     ══════════════════════════════ -->
+<div class="chapter">
+  <div class="chapter-rule-top">
+    <div class="chapter-num-big">06</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">LoRA Architecture &amp; Composition</div>
+      <div class="chapter-title">Adapter Vault</div>
+    </div>
+  </div>
+  <div class="chapter-rule-bottom"></div>
+
+  <p>
+    LoRA adapters are the system's institutional memory at the model level.
+    Where Qdrant stores <em>what happened</em>, LoRAs encode <em>how the universe speaks</em> —
+    the specific narrative voice, vocabulary, and stylistic fingerprint of the fiction.
+  </p>
+
+  <h3>The Three-Tier Hierarchy</h3>
+
+  <div class="lora-tier t1">
+    <div class="lora-tier-badge">T1<br/>UNIVERSE</div>
+    <div class="lora-tier-content">
+      <div class="lora-tier-name" style="color:var(--amber);">universe_voice — r=64 · MERGED · Always active</div>
+      <div class="lora-tier-meta">Trained on all universe-level world-building documents. The foundational voice of the entire Dark Matter Universe.</div>
+      <div class="lora-tier-desc">Every other adapter stacks on top of this. Because it is merged into the base model weights at deployment time, it adds zero VRAM overhead during inference. All agents inherit this voice.</div>
+    </div>
+  </div>
+
+  <div class="lora-tier t2">
+    <div class="lora-tier-badge">T2<br/>SERIES</div>
+    <div class="lora-tier-content">
+      <div class="lora-tier-name" style="color:var(--sec);">darkmatter_s01 · darkmatter_s02 — r=32 · weight: 1.0</div>
+      <div class="lora-tier-meta">Series-specific lore, recurring locations, faction dynamics, season arc knowledge. Swapped per generation job.</div>
+      <div class="lora-tier-desc">Only one T2 LLM adapter should be active at a time. Applying both series adapters simultaneously causes interference and degrades output coherence.</div>
+    </div>
+  </div>
+
+  <div class="lora-tier t3">
+    <div class="lora-tier-badge">T3<br/>CHARACTER</div>
+    <div class="lora-tier-content">
+      <div class="lora-tier-name" style="color:var(--green);">kael_theron_voice · sera_vance_voice — r=16 · weight: 0.7 max</div>
+      <div class="lora-tier-meta">Individual character voice adapters. Applied at reduced weight to preserve series tone.</div>
+      <div class="lora-tier-desc">Never combine two T3 LLM adapters in a single stack — interference risk. Stack T1 (merged) + T2 (1.0) + one T3 (≤0.7) maximum per agent run.</div>
+    </div>
+  </div>
+
+  <h3>Example Composition — Kael Scene · RTX 5090 VRAM Budget</h3>
+
+  <div class="grid-2">
+    <div class="panel panel-amber">
+      <div class="panel-title">LORA STACK · Scene Writer · Kael POV</div>
+      <div style="display:flex;flex-direction:column;gap:2mm;">
+        <div style="padding:2.5mm 3mm;background:var(--elev);border:1px solid rgba(200,146,42,0.2);border-left:2pt solid #c8922a;border-radius:2pt;">
+          <div style="font-family:var(--mono);font-size:8pt;color:var(--amber);">T1 · universe_voice · r=64</div>
+          <div style="font-family:var(--body);font-size:7.5pt;color:var(--muted);">MERGED — always active, zero overhead</div>
+        </div>
+        <div style="padding:2.5mm 3mm;background:var(--elev);border:1px solid rgba(155,151,144,0.15);border-left:2pt solid #9b9790;border-radius:2pt;">
+          <div style="font-family:var(--mono);font-size:8pt;color:var(--sec);">T2 · darkmatter_s02 · r=32 · ×1.0</div>
+          <div style="font-family:var(--body);font-size:7.5pt;color:var(--muted);">Series lore, tone, continuity. Full weight.</div>
+        </div>
+        <div style="padding:2.5mm 3mm;background:var(--elev);border:1px solid rgba(76,175,125,0.12);border-left:2pt solid #4caf7d;border-radius:2pt;">
+          <div style="font-family:var(--mono);font-size:8pt;color:var(--green);">T3 · kael_theron_voice · r=16 · ×0.7</div>
+          <div style="font-family:var(--body);font-size:7.5pt;color:var(--muted);">Character voice subordinate to series tone.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">VRAM BUDGET · RTX 5090 (32GB)</div>
+      <div class="vram-comp-row">
+        <span class="vram-comp-label">Qwen2.5-14B Q4</span>
+        <div class="vram-comp-bar"><div class="vram-comp-fill" style="width:21%;background:#c8922a;"></div></div>
+        <span class="vram-comp-gb">6.80 GB</span>
+      </div>
+      <div class="vram-comp-row">
+        <span class="vram-comp-label">darkmatter_s02 (r=32)</span>
+        <div class="vram-comp-bar"><div class="vram-comp-fill" style="width:0.5%;background:#9b9790;"></div></div>
+        <span class="vram-comp-gb">0.17 GB</span>
+      </div>
+      <div class="vram-comp-row">
+        <span class="vram-comp-label">kael_voice (r=16)</span>
+        <div class="vram-comp-bar"><div class="vram-comp-fill" style="width:0.3%;background:#4caf7d;"></div></div>
+        <span class="vram-comp-gb">0.09 GB</span>
+      </div>
+      <div class="vram-comp-row">
+        <span class="vram-comp-label">KV Cache</span>
+        <div class="vram-comp-bar"><div class="vram-comp-fill" style="width:6.25%;background:#5a5855;"></div></div>
+        <span class="vram-comp-gb">2.00 GB</span>
+      </div>
+      <div style="border-top:1px solid var(--border);padding-top:2mm;margin-top:2mm;display:flex;justify-content:space-between;font-family:var(--mono);font-size:8.5pt;">
+        <span style="color:var(--muted);">TOTAL IN USE</span>
+        <span style="color:var(--pri);">9.06 GB &nbsp;<span style="color:var(--green);">✓ Fits</span></span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-warn">
+    <span class="callout-icon">!</span>
+    <div class="callout-body">
+      Do not combine two T3 LLM adapters in a single stack. Interference between competing character
+      voices degrades output quality significantly. Maximum stack: T1 (merged) + T2 (1.0) + one T3 (≤0.7).
+    </div>
+  </div>
+
+  <h3>Full Adapter Registry</h3>
+
+  <div class="panel">
+    <div class="panel-title">ALL REGISTERED ADAPTERS · AUTONOMOUS STUDIO</div>
+    <table style="width:100%;border-collapse:collapse;font-family:var(--mono);font-size:7.5pt;">
+      <thead>
+        <tr style="border-bottom:1px solid var(--border)">
+          <th style="padding:2mm 3mm;color:var(--muted);text-align:left;font-weight:normal;letter-spacing:0.08em;">NAME</th>
+          <th style="padding:2mm 3mm;color:var(--muted);text-align:left;font-weight:normal;">TYPE</th>
+          <th style="padding:2mm 3mm;color:var(--muted);text-align:left;font-weight:normal;">BASE</th>
+          <th style="padding:2mm 3mm;color:var(--muted);text-align:right;font-weight:normal;">RANK</th>
+          <th style="padding:2mm 3mm;color:var(--muted);text-align:left;font-weight:normal;">TIER</th>
+          <th style="padding:2mm 3mm;color:var(--muted);text-align:right;font-weight:normal;">LOSS</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr style="border-bottom:1px solid rgba(200,146,42,0.06)"><td style="padding:2mm 3mm;color:var(--amber)">universe_voice</td><td style="padding:2mm 3mm;color:var(--sec)">LLM</td><td style="padding:2mm 3mm;color:var(--muted)">Qwen2.5-14B</td><td style="padding:2mm 3mm;color:var(--sec);text-align:right">r=64</td><td style="padding:2mm 3mm;color:var(--amber)">T1</td><td style="padding:2mm 3mm;color:var(--green);text-align:right">0.681</td></tr>
+        <tr style="border-bottom:1px solid rgba(200,146,42,0.06)"><td style="padding:2mm 3mm;color:var(--amber)">darkmatter_s01</td><td style="padding:2mm 3mm;color:var(--sec)">LLM</td><td style="padding:2mm 3mm;color:var(--muted)">Qwen2.5-14B</td><td style="padding:2mm 3mm;color:var(--sec);text-align:right">r=32</td><td style="padding:2mm 3mm;color:var(--sec)">T2</td><td style="padding:2mm 3mm;color:var(--green);text-align:right">0.712</td></tr>
+        <tr style="border-bottom:1px solid rgba(200,146,42,0.06)"><td style="padding:2mm 3mm;color:var(--amber)">darkmatter_s02</td><td style="padding:2mm 3mm;color:var(--sec)">LLM</td><td style="padding:2mm 3mm;color:var(--muted)">Qwen2.5-14B</td><td style="padding:2mm 3mm;color:var(--sec);text-align:right">r=32</td><td style="padding:2mm 3mm;color:var(--sec)">T2</td><td style="padding:2mm 3mm;color:var(--green);text-align:right">0.724</td></tr>
+        <tr style="border-bottom:1px solid rgba(200,146,42,0.06)"><td style="padding:2mm 3mm;color:var(--amber)">kael_theron_voice</td><td style="padding:2mm 3mm;color:var(--sec)">LLM</td><td style="padding:2mm 3mm;color:var(--muted)">Qwen2.5-14B</td><td style="padding:2mm 3mm;color:var(--sec);text-align:right">r=16</td><td style="padding:2mm 3mm;color:var(--green)">T3</td><td style="padding:2mm 3mm;color:var(--green);text-align:right">0.734</td></tr>
+        <tr style="border-bottom:1px solid rgba(200,146,42,0.06)"><td style="padding:2mm 3mm;color:var(--amber)">sera_vance_voice</td><td style="padding:2mm 3mm;color:var(--sec)">LLM</td><td style="padding:2mm 3mm;color:var(--muted)">Qwen2.5-14B</td><td style="padding:2mm 3mm;color:var(--sec);text-align:right">r=16</td><td style="padding:2mm 3mm;color:var(--green)">T3</td><td style="padding:2mm 3mm;color:var(--green);text-align:right">0.748</td></tr>
+        <tr style="border-bottom:1px solid rgba(200,146,42,0.06)"><td style="padding:2mm 3mm;color:var(--amber)">darkmatter_style</td><td style="padding:2mm 3mm;color:var(--cyan)">FLUX</td><td style="padding:2mm 3mm;color:var(--muted)">FLUX.1-dev</td><td style="padding:2mm 3mm;color:var(--sec);text-align:right">r=32</td><td style="padding:2mm 3mm;color:var(--sec)">T2</td><td style="padding:2mm 3mm;color:var(--muted);text-align:right">—</td></tr>
+        <tr style="border-bottom:1px solid rgba(200,146,42,0.06)"><td style="padding:2mm 3mm;color:var(--amber)">kael_identity</td><td style="padding:2mm 3mm;color:var(--cyan)">FLUX</td><td style="padding:2mm 3mm;color:var(--muted)">FLUX.1-dev</td><td style="padding:2mm 3mm;color:var(--sec);text-align:right">r=16</td><td style="padding:2mm 3mm;color:var(--green)">T3</td><td style="padding:2mm 3mm;color:var(--muted);text-align:right">—</td></tr>
+        <tr style="border-bottom:1px solid rgba(200,146,42,0.06)"><td style="padding:2mm 3mm;color:var(--amber)">sera_identity</td><td style="padding:2mm 3mm;color:var(--cyan)">FLUX</td><td style="padding:2mm 3mm;color:var(--muted)">FLUX.1-dev</td><td style="padding:2mm 3mm;color:var(--sec);text-align:right">r=16</td><td style="padding:2mm 3mm;color:var(--green)">T3</td><td style="padding:2mm 3mm;color:var(--muted);text-align:right">—</td></tr>
+        <tr><td style="padding:2mm 3mm;color:var(--amber)">darkmatter_video</td><td style="padding:2mm 3mm;color:var(--coral)">WAN2.2</td><td style="padding:2mm 3mm;color:var(--muted)">Wan2.2-T2V-14B</td><td style="padding:2mm 3mm;color:var(--sec);text-align:right">r=16</td><td style="padding:2mm 3mm;color:var(--sec)">T2</td><td style="padding:2mm 3mm;color:var(--coral);text-align:right">TRAINING</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     CH.7 — AGENTS
+     ══════════════════════════════ -->
+<div class="chapter">
+  <div class="chapter-rule-top">
+    <div class="chapter-num-big">07</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">Agent Orchestration Reference</div>
+      <div class="chapter-title">The 6-Agent Pipeline</div>
+    </div>
+  </div>
+  <div class="chapter-rule-bottom"></div>
+
+  <p>
+    The pipeline is a LangGraph directed graph. The Showrunner is the supervisor node —
+    it receives the brief, delegates to writers, collects output, and coordinates the editorial pass.
+    Each agent has its own model, LoRA stack, and memory configuration.
+  </p>
+
+  <h3>Agent Roster</h3>
+
+  <div class="grid-2">
+    <div class="agent-card" style="border-left:3pt solid #c8922a;">
+      <div class="agent-name amber">SHOWRUNNER</div>
+      <div class="agent-model">Qwen2.5-32B · High capability orchestrator</div>
+      <div class="agent-loras"><span class="agent-lora-tag">universe_voice</span></div>
+      <p class="agent-role">Orchestrator and supervisor. Receives the episode brief, breaks it into a beat sheet, assigns scenes to the Head Writer, manages continuity at episode level, and coordinates the editorial pass.</p>
+    </div>
+
+    <div class="agent-card" style="border-left:3pt solid #c8922a;">
+      <div class="agent-name amber">WORLD BUILDER</div>
+      <div class="agent-model">Qwen2.5-14B · Long context</div>
+      <div class="agent-loras"><span class="agent-lora-tag">universe_voice</span><span class="agent-lora-tag">darkmatter_s02</span></div>
+      <p class="agent-role">Expands series bible entries, creates new locations and faction lore on demand. Invoked when the Showrunner requires new canonical world-building not present in existing lore.</p>
+    </div>
+
+    <div class="agent-card" style="border-left:3pt solid #c8922a;">
+      <div class="agent-name amber">HEAD WRITER</div>
+      <div class="agent-model">Qwen2.5-14B · Structured output</div>
+      <div class="agent-loras"><span class="agent-lora-tag">universe_voice</span><span class="agent-lora-tag">darkmatter_s02</span></div>
+      <p class="agent-role">Produces beat sheets and scene outlines from the Showrunner's episode brief. Specifies story function, primary characters, setting, and character state (in/out) for each scene.</p>
+    </div>
+
+    <div class="agent-card" style="border-left:3pt solid #00d4c8;">
+      <div class="agent-name cyan">SCENE WRITER</div>
+      <div class="agent-model">Qwen2.5-14B · Creative generation</div>
+      <div class="agent-loras"><span class="agent-lora-tag">darkmatter_s02</span><span class="agent-lora-tag">kael_theron_voice</span></div>
+      <p class="agent-role">Generates full scene scripts. RAG-queries Qdrant before each scene (7 chunks average). Receives Neo4j constraint feedback inline. LoRA stack swaps per character focus.</p>
+    </div>
+
+    <div class="agent-card" style="border-left:3pt solid #4caf7d;">
+      <div class="agent-name green">STORY EDITOR</div>
+      <div class="agent-model">Qwen2.5-7B · Fast evaluator</div>
+      <div class="agent-loras"><span class="agent-lora-tag">universe_voice</span></div>
+      <p class="agent-role">Reviews the full episode draft. Checks: character consistency, continuity violations, pacing. Returns pass/fail with specific inline notes. Triggers rewrites for failed scenes.</p>
+    </div>
+
+    <div class="agent-card" style="border-left:3pt solid #00d4c8;">
+      <div class="agent-name cyan">RESEARCHER</div>
+      <div class="agent-model">Qwen2.5-7B · RAG specialist</div>
+      <div class="agent-loras" style="color:var(--muted);font-family:var(--mono);font-size:7.5pt;">No LoRA — pure retrieval</div>
+      <p class="agent-role">Lore retrieval specialist. Queries Qdrant and Neo4j on behalf of other agents. Formats and ranks results. Does not generate narrative content — only retrieves and structures existing lore.</p>
+    </div>
+  </div>
+
+  <h3>Sample Scene Output — DM S02E04, Scene 12</h3>
+
+  <div class="script-block">
+    <div class="script-slug">INT. VAULT ANTECHAMBER — NIGHT</div>
+    <p class="script-action">
+      The antechamber is cold. Kael's breath fogs in the emergency lighting.
+      His hand stays near his holster — not touching it. Not yet.
+    </p>
+    <p class="script-action">
+      MAREN stands at the far console, her back to him. She knew he was coming.
+    </p>
+    <span class="script-speaker">KAEL</span>
+    <span class="script-line">Six months.</span>
+    <span class="script-speaker">MAREN</span>
+    <span class="script-line"><em>(not turning)</em><br/>Longer than that.</span>
+    <span class="script-speaker">KAEL</span>
+    <span class="script-line">You knew. The whole time.</span>
+    <p class="script-action">
+      A beat. She turns. There's no defiance in her face — only something that might be called regret,
+      if the Iron Conclave had ever trained its directors to show it.
+    </p>
+    <span class="script-speaker">MAREN</span>
+    <span class="script-line">I gave you every opportunity to understand.<br/>You chose sentiment.</span>
+  </div>
+
+  <div class="callout callout-tip">
+    <span class="callout-icon">★</span>
+    <div class="callout-body">
+      Kael's dialogue — short sentences, no contractions, maximum information density —
+      is the <strong>kael_theron_voice</strong> adapter (r=16, weight 0.7) at work,
+      trained on 1,402 canonical dialogue pairs extracted from the series bible.
+    </div>
+  </div>
+</div>
+
+<!-- ══════════════════════════════
+     CH.8 — GENERATION
+     ══════════════════════════════ -->
+<div class="chapter">
+  <div class="chapter-rule-top">
+    <div class="chapter-num-big">08</div>
+    <div class="chapter-head-text">
+      <div class="chapter-kicker">Production Walkthrough</div>
+      <div class="chapter-title">Running a Generation Job</div>
+    </div>
+  </div>
+  <div class="chapter-rule-bottom"></div>
+
+  <p class="lead">
+    This walkthrough generates a complete episode of Dark Matter — Series 02, Episode 04.
+    Each step shows what happens at the system level during a production run.
+  </p>
+
+  <h3>6-Stage Generation Walkthrough</h3>
+
+  <div class="panel panel-amber" style="margin:3mm 0;">
+    <div class="panel-title">STEP 01 — BRIEF SUBMISSION</div>
+    <p>Navigate to <strong>Generation → New Job</strong>. Select: Series: Dark Matter, Season: 02, Episode: 04.</p>
+    <p style="margin-top:2mm;">Enter the one-line brief:</p>
+    <div style="font-family:var(--mono);font-size:8.5pt;color:var(--cyan);padding:2.5mm 4mm;background:rgba(0,212,200,0.05);border:1px solid rgba(0,212,200,0.15);border-radius:2pt;margin-top:2mm;">
+      "S02E04 — Kael confronts Maren in the Vault antechamber. The Conclave's secret is revealed."
+    </div>
+  </div>
+
+  <div class="panel" style="margin:3mm 0;">
+    <div class="panel-title">STEP 02 — SHOWRUNNER</div>
+    <p>The Showrunner receives the brief and produces a 12-scene beat sheet. Each beat specifies: story function, primary characters, setting, and character state going in/out.</p>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--muted);margin-top:2mm;">Output: 12 beats · ~800 tokens · 8.2s · Qwen2.5-32B + universe_voice</p>
+  </div>
+
+  <div class="panel" style="margin:3mm 0;">
+    <div class="panel-title">STEP 03 — HEAD WRITER</div>
+    <p>The Head Writer expands each beat into a full scene outline — setting, action, dialogue purpose, character emotional state in/out. Serves as the blueprint for the Scene Writer.</p>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--muted);margin-top:2mm;">Output: 12 outlines · ~3,200 tokens · 22s</p>
+  </div>
+
+  <div class="panel" style="margin:3mm 0;">
+    <div class="panel-title">STEP 04 — SCENE WRITER (×12)</div>
+    <p>The Scene Writer generates each scene in sequence. Before writing each scene, it executes:</p>
+    <div style="font-family:var(--mono);font-size:8pt;color:var(--sec);margin-top:2mm;padding-left:3mm;">
+      1. RAG query to Qdrant (avg 7 chunks, 12ms) — retrieves relevant lore context<br/>
+      2. Neo4j constraint check — validates all referenced entities are alive/accessible<br/>
+      3. Generates scene with LoRA stack: darkmatter_s02 (1.0) + kael_theron_voice (0.7)
+    </div>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--muted);margin-top:2mm;">Output: 12 full scenes · ~28,000 tokens · ~8 min total</p>
+  </div>
+
+  <div class="panel" style="margin:3mm 0;">
+    <div class="panel-title">STEP 05 — STORY EDITOR</div>
+    <p>The Story Editor reviews the complete draft. It checks character consistency, continuity violations, and pacing. Issues inline correction notes. Scenes that fail are automatically requeued for rewrite with the constraint injected into the prompt.</p>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--muted);margin-top:2mm;">Output: Pass 94% · 2 constraint flags · Revision notes · Qwen2.5-7B</p>
+  </div>
+
+  <div class="panel" style="margin:3mm 0;">
+    <div class="panel-title">STEP 06 — VISUAL PIPELINE</div>
+    <p>ComfyUI renders key frames for flagged and pivotal scenes using the FLUX LoRA stack. WAN2.2 generates motion clips for specified scenes if video is requested.</p>
+    <p style="font-family:var(--mono);font-size:8pt;color:var(--muted);margin-top:2mm;">Output: 24 frames · 6 motion clips · darkmatter_style (0.55) + kael_identity (0.85)</p>
+  </div>
+
+  <h3>Episode Output Summary — DM S02E04</h3>
+
+  <div class="output-summary">
+    <div class="output-stat"><span class="output-val amber">12</span><span class="output-label">SCENES</span></div>
+    <div class="output-stat"><span class="output-val amber">~32K</span><span class="output-label">TOKENS</span></div>
+    <div class="output-stat"><span class="output-val cyan">84</span><span class="output-label">RAG QUERIES</span></div>
+    <div class="output-stat"><span class="output-val cyan">36</span><span class="output-label">GRAPH CHECKS</span></div>
+    <div class="output-stat"><span class="output-val coral">2</span><span class="output-label">VIOLATIONS</span></div>
+    <div class="output-stat"><span class="output-val green">94%</span><span class="output-label">CONSISTENCY</span></div>
+    <div class="output-stat"><span class="output-val green">24</span><span class="output-label">IMAGES GEN</span></div>
+    <div class="output-stat"><span class="output-val amber">~12 min</span><span class="output-label">RUNTIME</span></div>
+  </div>
+
+  <div class="callout callout-key" style="margin:4mm 0;">
+    <span class="callout-icon">◈</span>
+    <div class="callout-body">
+      The 2 continuity violations are automatically requeued: the Scene Writer regenerates those specific scenes
+      with the constraint note injected into the prompt, informed by the exact Neo4j path that failed.
+      No human intervention required.
+    </div>
+  </div>
+
+  <h3>Where to Start</h3>
+
+  <div class="grid-2" style="margin:3mm 0;">
+    <div class="panel panel-amber">
+      <div class="panel-title">RECOMMENDED FIRST STEPS</div>
+      <div style="font-family:var(--mono);font-size:8pt;color:var(--sec);display:flex;flex-direction:column;gap:2mm;">
+        <div>1. Browse the Lore Library — explore Kael Theron's entity detail</div>
+        <div>2. Open the Adapter Vault — inspect the LoRA registry and composition planner</div>
+        <div>3. Go to Training — review the active job and live loss curve</div>
+        <div>4. Navigate to Generation — launch a run for DM S02E05</div>
+      </div>
+    </div>
+    <div class="panel">
+      <div class="panel-title">QUICK REFERENCE — KEYBOARD SHORTCUTS</div>
+      <div style="font-family:var(--mono);font-size:8pt;color:var(--sec);display:flex;flex-direction:column;gap:2mm;">
+        <div><span style="color:var(--amber);">Sidebar</span> — hover to expand, auto-collapses</div>
+        <div><span style="color:var(--amber);">Agent Config</span> — click [CONFIGURE] in Agents page</div>
+        <div><span style="color:var(--amber);">Query Tester</span> — Lore Layer → bottom panel</div>
+        <div><span style="color:var(--amber);">Loss Chart</span> — Training page, live via recharts</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Final rule -->
+  <div style="margin-top:16mm;padding-top:5mm;border-top:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;">
+    <span style="font-family:var(--mono);font-size:7pt;color:var(--muted);">AUTONOMOUS STUDIO · FIELD GUIDE · MARCH 2026</span>
+    <span style="font-family:var(--mono);font-size:7pt;color:var(--muted);">END OF DOCUMENT</span>
+  </div>
+</div>
+
+</div><!-- .page -->
+</body>
+</html>
